@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "662288878259",
+    "project_id": "ergasiadatabase-9dd20",
+    "storage_bucket": "ergasiadatabase-9dd20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662288878259:android:5ef7539ecf02877703fec6",
+        "android_client_info": {
+          "package_name": "com.example.ergasia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "662288878259-rjav0iemfebt9li9lfv72vll6iupkt8g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ergasia",
+            "certificate_hash": "26b475ecfec34c44546e782f5eba01e7f3ee39bf"
+          }
+        },
+        {
+          "client_id": "662288878259-jag6do5ddb59lr2vuc6idaudf0q3p9g9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuYcoqmRkvbRCUka8xKhZAANQhgWrNSpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "662288878259-jag6do5ddb59lr2vuc6idaudf0q3p9g9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

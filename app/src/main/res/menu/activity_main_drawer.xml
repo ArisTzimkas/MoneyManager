@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/baseline_home_24"
+            android:title="Αρχική" />
+        <item
+            android:id="@+id/nav_transactions"
+            android:icon="@drawable/baseline_currency_exchange_24"
+            android:title="Συναλλαγές" />
+        <item
+            android:id="@+id/nav_schedule"
+            android:icon="@drawable/baseline_schedule_24"
+            android:title="Προγραμματισμός εξόδων" />
+
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/baseline_search_24"
+            android:title="Αναζήτηση εξόδων" />
+        <item
+            android:id="@+id/nav_user"
+            android:icon="@drawable/baseline_person_24"
+            android:title="Λογαριασμός" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/baseline_info_24"
+            android:title="Πληροφορίες εφαρμογής" />
+
+
+
+    </group>
+</menu>
