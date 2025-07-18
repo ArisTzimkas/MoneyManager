@@ -23,14 +23,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
-
     FirebaseAuth mAuth;
-
     EditText textEmailLogin;
     EditText textPasswordLogin;
-
     TextView gotoRegister;
-
     Button loginB;
 
 
@@ -59,8 +55,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
             }
         });
-
-
 
 
 

@@ -31,13 +31,20 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageNoData"
             android:layout_width="164dp"
             android:layout_height="138dp"
             app:layout_constraintBottom_toTopOf="@+id/textView10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/baseline_info_24" />
+            app:srcCompat="@drawable/info" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            app:counterEnabled="false"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="591dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

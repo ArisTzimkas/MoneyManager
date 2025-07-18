@@ -21,26 +21,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
-
-
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
-
     EditText textEmailRegister;
     EditText textPasswordRegister;
-
     EditText inputTotal;
-
     TextView gotoLogin;
-
     Button registerB;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
 
         textEmailRegister=findViewById(R.id.textEmailCreate);
         textPasswordRegister=findViewById(R.id.textPasswordCreate);
@@ -48,31 +40,15 @@ public class RegisterActivity extends AppCompatActivity {
         gotoLogin=findViewById(R.id.tvLoginHere);
         registerB=findViewById(R.id.CreateButton);
 
-
         mAuth=FirebaseAuth.getInstance();
 
 
-        registerB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createUser();
-            }
-        });
+        registerB.setOnClickListener(v -> createUser());
 
-        gotoLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
-            }
-        });
+        gotoLogin.setOnClickListener(v -> startActivity(new Intent(RegisterActivity.this,LoginActivity.class)));
 
 
         getSupportActionBar().setTitle("Δημιουργία λογαριασμού");
-
-
-
-
-
     }
 
     private void createUser(){
@@ -92,25 +68,21 @@ public class RegisterActivity extends AppCompatActivity {
             inputTotal.requestFocus();
         }
         else {
-            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()) {
-                        Toast.makeText(RegisterActivity.this, "Επιτυχής δημιουργία", Toast.LENGTH_LONG).show();
+            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    Toast.makeText(RegisterActivity.this, "Επιτυχής δημιουργία", Toast.LENGTH_LONG).show();
 
-                        currentUser=mAuth.getCurrentUser();
-                        String uid=currentUser.getUid();
-                        UserTotal userTotal=new UserTotal();
-                        userTotal.setUid(uid);
-                        userTotal.setTotal(total);
+                    currentUser=mAuth.getCurrentUser();
+                    String uid=currentUser.getUid();
+                    UserTotal userTotal=new UserTotal();
+                    userTotal.setUid(uid);
+                    userTotal.setTotal(total);
 
-                        MainActivity.db.collection("UserTotal").document(""+uid).set(userTotal);
-
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                    }
-                    else{
-                        Toast.makeText(RegisterActivity.this, "Η δημιουργία απέτυχε: "+task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                    }
+                    MainActivity.db.collection("UserTotal").document(""+uid).set(userTotal);
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                }
+                else{
+                    Toast.makeText(RegisterActivity.this, "Η δημιουργία απέτυχε: "+task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
 
