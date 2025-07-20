@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,7 +34,6 @@ public class SearchFragment extends Fragment {
     Button totalSearch;
     TextInputEditText datefrom;
     TextInputEditText dateto;
-    TextView display;
     FirebaseAuth mAuth;
     String user;
 
@@ -112,8 +110,7 @@ public class SearchFragment extends Fragment {
             if (newSelection > current.length()) newSelection = current.length();
 
             // More specific cursor adjustment if a hyphen was just programmatically added
-            if ( (originalClean.length() == 4 && clean.length() == 4 && current.length() == 5 && current.charAt(4) == '-') ||
-                    (originalClean.length() == 6 && clean.length() == 6 && current.length() == 8 && current.charAt(7) == '-') ) {
+            if (originalClean.length() == 4 && current.length() == 5 && current.charAt(4) == '-' || originalClean.length() == 6 && current.length() == 8 && current.charAt(7) == '-') {
                 if (selectionPos == formatted.length() -1 ) { // If cursor was right before the new hyphen
                     newSelection = formatted.length();
                 }
@@ -152,12 +149,12 @@ public class SearchFragment extends Fragment {
         user=currentUser.getUid();
 
 
-        TransactionAdapter adapter = new TransactionAdapter(getContext());
+        TransactionAdapter adapter1 = new TransactionAdapter(getContext());
+        SearchCategoryAdapter adapter2=new SearchCategoryAdapter(getContext());
 
 
-        assert binding.Recycler != null;
         binding.Recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.Recycler.setAdapter(adapter);
+        binding.Recycler.setAdapter(adapter1);
         binding.Recycler.setVisibility(View.VISIBLE);
 
         searchB=root.findViewById(R.id.searchButton);
@@ -170,11 +167,11 @@ public class SearchFragment extends Fragment {
 
             if (startDate.length()==10 && endDate.length()==10) {
                 if (startDate.matches(dateFormatPattern) && endDate.matches(dateFormatPattern)) {
+                    if(binding.Recycler.getAdapter()!=adapter1){
+                        binding.Recycler.setAdapter(adapter1);
+                    }
                     List<Transactions> transactions = MainActivity.myDatabase.myDao().getTransactionsByCategoryAndDateRangeAndUser(selectedCategory, startDate, endDate, user);
-                    Log.d("SearchFragment", "DAO returned, transaction count: " + (transactions != null ? transactions.size() : "null list"));
-                    adapter.submitList(transactions);
-                    Log.d("AdapterCount", String.valueOf(adapter.getItemCount()));
-
+                    adapter1.submitList(transactions);
                 }
             } else {
                 Toast.makeText(requireContext(), "Εισάγετε και τις δύο ημερομηνίες", Toast.LENGTH_SHORT).show();
@@ -183,13 +180,14 @@ public class SearchFragment extends Fragment {
 
         totalSearch=root.findViewById(R.id.totalSearch);
         totalSearch.setOnClickListener(v -> {
-            List<CategoryTransactionCount> totalS = MainActivity.myDatabase.myDao().getTransactionCountByCategoryAndUser(user);
-            StringBuilder transactionText = new StringBuilder();
-            for (CategoryTransactionCount category : totalS) {
-                String transactionInfo = "\nΚατηγορία: " + category.getCategoryName() + "\nΠλήθος Συναλλαγών: " + category.getTransactionCount() + "\n_____________________________";
-                transactionText.append(transactionInfo);
+            if(binding.Recycler.getAdapter()!=adapter2){
+                binding.Recycler.setAdapter(adapter2);
             }
+            List<CategoryTransactionCount> totalS = MainActivity.myDatabase.myDao().getTransactionCountByCategoryAndUser(user);
+            adapter2.submitList(totalS);
+            Log.d("SearchFragment", "adapteer2 count: "+adapter2.getItemCount());
         });
+
         return root;
     }
 }
