@@ -33,22 +33,16 @@ public class UserFragment extends Fragment {
     Button logout;
     Button goal;
     FirebaseAuth mAuth;
-
     TextView email;
     TextView id;
-
     TextView goalText;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        /////////
         UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         binding = FragmentUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        /////////
-
 
         mAuth=FirebaseAuth.getInstance();
-
         FirebaseUser currentUser=mAuth.getCurrentUser();
 
         email=root.findViewById(R.id.emailUser);
@@ -80,6 +74,7 @@ public class UserFragment extends Fragment {
             }
         });
 
+        assert currentUser != null;
         MainActivity.db.collection("UserGoal").document(""+currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -92,17 +87,9 @@ public class UserFragment extends Fragment {
                             goalText.setText(String.valueOf(goal));
                         }
                     }
-                } else {
-                    // Task failed with an exception
-                    Exception exception = task.getException();
-                    // Handle the exception
                 }
             }
         });
-
-
-
-
         return root;
     }
 

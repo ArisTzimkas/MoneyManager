@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 
 import com.example.ergasia.database.Category;
@@ -48,26 +49,14 @@ import java.util.Locale;
 
 
 public class PopUp extends Activity {
-
     private static final int NOTIFICATION_ID = 1;
-
     String selectedCategory;
     String selectedExpenseCategory;
-
     public int id;
-
     FirebaseAuth mAuth;
-
-
-
     Spinner sItems2;
-
     int value = 0;
-
     int newTotal;
-
-
-
 
 
 
@@ -170,13 +159,12 @@ public class PopUp extends Activity {
                 selectedExpenseCategory = sItems2.getSelectedItem().toString();
                 EditText valueInput=findViewById(R.id.valueInput);
 
-
                 try {
                     value = Integer.parseInt(valueInput.getText().toString());
                 } catch (NumberFormatException e) {
-                    // Handle the case where the input cannot be converted to an integer
                     System.out.println("Could not parse " + e);
                 }
+
                 String valueText = valueInput.getText().toString().trim();
                 if(!TextUtils.isEmpty(valueText)) {
                     mAuth = FirebaseAuth.getInstance();
@@ -198,8 +186,9 @@ public class PopUp extends Activity {
                     transactions.setCatId(categoryId);
                     id++;
 
+                    //Inform MainActivity the save is pressed to refresh the fragment
                     Intent intent = new Intent("com.example.ergasia.SAVE_BUTTON_CLICKED");
-                    sendBroadcast(intent);
+                    LocalBroadcastManager.getInstance(PopUp.this).sendBroadcast(intent);
 
                     MainActivity.myDatabase.myDao().addTransaction(transactions);
 
@@ -241,16 +230,6 @@ public class PopUp extends Activity {
                     valueInput.setError("Συμπληρώστε");
                     valueInput.requestFocus();
                 }
-
-
-
-
-
-
-
-
-
-
             }
         });
         }catch(Exception e) {
@@ -258,7 +237,6 @@ public class PopUp extends Activity {
             Toast.makeText(this, "Error occurred in PopUp activity", Toast.LENGTH_SHORT).show();
             finish(); // Close the activity if an error occurs
         }
-
     }
 
 
@@ -270,9 +248,7 @@ public class PopUp extends Activity {
                 .setContentTitle("Νέα συναλλαγή")
                 .setContentText(selectedCategory + ": " + value)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
         createNotCha();
-
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(100, builder.build());
     }
@@ -287,9 +263,6 @@ public class PopUp extends Activity {
 
             NotificationManager notificationManager=getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
-
         }
     }
-
-
 }

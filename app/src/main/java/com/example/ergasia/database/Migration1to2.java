@@ -11,7 +11,7 @@ public class Migration1to2 extends Migration {
 
     @Override
     public void migrate(@NonNull SupportSQLiteDatabase database) {
-        // Adjust the schema to match the expected configuration
+
 
         // For `cat_id`, keeping it NOT NULL with a DEFAULT value if that aligns with business logic
         database.execSQL("ALTER TABLE transactions ADD COLUMN cat_id INTEGER NOT NULL DEFAULT 0");

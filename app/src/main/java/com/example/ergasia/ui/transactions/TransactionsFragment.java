@@ -29,41 +29,15 @@ import java.util.List;
 public class TransactionsFragment extends Fragment {
 
     private FragmentTransactionsBinding binding;
-
-
-
-
-
-
-
-
-
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     String transactionText;
 
 
-
-
     public TransactionsFragment() {
-        // Required empty public constructor
+        //empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment QueryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static TransactionsFragment newInstance(String param1, String param2) {
         TransactionsFragment fragment = new TransactionsFragment();
         Bundle args = new Bundle();
@@ -77,27 +51,18 @@ public class TransactionsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
     }
 
-
     FirebaseAuth mAuth;
     @SuppressLint("StaticFieldLeak")
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentTransactionsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-
-
-
-
-
 
         mAuth=FirebaseAuth.getInstance();
         FirebaseUser currentUser=mAuth.getCurrentUser();
@@ -106,6 +71,7 @@ public class TransactionsFragment extends Fragment {
         ImageView imageView = root.findViewById(R.id.imageNoData);
         TextView textNoData = root.findViewById(R.id.textNoData);
 
+        assert currentUser != null;
         List<Transactions> transactions = MainActivity.myDatabase.myDao().getTransactionsByUserId(currentUser.getUid());
         StringBuilder result = new StringBuilder();
         for (Transactions transaction : transactions) {
@@ -122,61 +88,28 @@ public class TransactionsFragment extends Fragment {
             }
 
             if ("ΕΣΟΔΑ".equals(type)) {
-                // Construct the transaction text
                 transactionText = "\n\nΚωδικός Συναλλαγής: " + id + "\nΤύπος: " + type + "\nΠοσό: " + value + "\nΗμερομηνία:" + date + "\n_____________________________";
             }
             else if("ΕΞΟΔΑ".equals(type)){
                 transactionText = "\n\nΚωδικός Συναλλαγής: " + id + "\nΤύπος: " + type + "\nΠοσό: " + value + "\nΗμερομηνία:" + date + "\nΚατηγορία:" + categoryName+"\n_____________________________";
             }
-            // Append the new transaction text to the beginning of the result
             result.insert(0, transactionText);
         }
         textView.setText(result.toString());
 
+        //Display
         if (transactions.isEmpty()) {
-            // If no transactions, hide the TextView and ImageView, show the textNoData TextView
             textView.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
             textNoData.setVisibility(View.VISIBLE);
         } else {
-            // If there are transactions, show the TextView and ImageView, hide the textNoData TextView
             textView.setVisibility(View.VISIBLE);
             imageView.setVisibility(View.GONE);
             textNoData.setVisibility(View.GONE);
             textView.setText(result.toString());
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         return root;
     }
-
-
-
-
-
 
 
 

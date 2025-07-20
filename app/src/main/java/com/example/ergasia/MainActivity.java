@@ -25,6 +25,7 @@ import com.example.ergasia.database.MyDatabase;
 import com.google.android.material.navigation.NavigationView;
 
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean permissionRequested = false;
     private static final String PERMISSION_REQUESTED_KEY = "permission_requested";
+    private boolean showOptionMenu=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
         if (!permissionRequested) {
             requestNotificationPermissionIfNeeded();
         }
-
-
-
+        invalidateOptionsMenu(); // This is KEY: tells Android to redraw the options menu
         try {
             myDatabase = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "UserDB")
                     .addMigrations(new Migration1to2(1, 2), new Migration2to3(2, 3))
@@ -86,17 +86,6 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
-
-
-
-
-
-
-
-
-
-
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -112,25 +101,30 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
+        //Setup menu
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_transactions, R.id.nav_user, R.id.nav_schedule, R.id.nav_search,R.id.nav_about)
                 .setOpenableLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        NavController globalNavController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavigationUI.setupActionBarWithNavController(this, globalNavController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, globalNavController);
 
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+        //Check if current fragment is transaction
+        globalNavController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (destination.getId() == R.id.nav_transactions) {
                 binding.appBarMain.fab.setVisibility(View.VISIBLE);
+                showOptionMenu=true;
             } else {
                 binding.appBarMain.fab.setVisibility(View.GONE);
+                showOptionMenu=false;
             }
+            invalidateOptionsMenu();
         });
 
 
 
-
+        //Setup default categories
         if (myDatabase.myDao().getCategoryCount() == 0) {
             // default categories
             Category category1 = new Category();
@@ -148,21 +142,6 @@ public class MainActivity extends AppCompatActivity {
             category3.setCname("Υγεία");
             myDatabase.myDao().addCategory(category3);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     private final BroadcastReceiver saveButtonReceiver = new BroadcastReceiver() {
@@ -170,17 +149,22 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             // Handle the save button click event
             if (Objects.equals(intent.getAction(), "com.example.ergasia.SAVE_BUTTON_CLICKED")) {
-                // Navigate to HomeFragment
-                NavController navController = Navigation.findNavController(MainActivity.this, R.id.transactions_fragment);
-                navController.navigate(R.id.action_refresh);
-                navController.navigate(R.id.action_refresh2);
 
+                NavController currentNavController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment_content_main);
+                currentNavController.navigate(R.id.action_refresh);
             }
         }
     };
 
-
-
+    //Display the toolbar 3-dot menu only in the transactions fragment
+    public boolean onPrepareOptionsMenu(Menu menu) {
+            if(showOptionMenu){
+                return true;
+            }else{
+                menu.clear();
+                return false;
+            }
+    }
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -200,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         IntentFilter filter = new IntentFilter("com.example.ergasia.SAVE_BUTTON_CLICKED");
-        registerReceiver(saveButtonReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        LocalBroadcastManager.getInstance(this).registerReceiver(saveButtonReceiver, filter);
         Log.d("MainActivity", "onStart() called");
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -208,8 +192,6 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
-
-
     }
 
 
@@ -254,33 +236,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(saveButtonReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(saveButtonReceiver);
         Log.d("MainActivity", "onStop() called");
     }
 
-
+    // Inflate the menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-
-
         return true;
     }
 
@@ -289,7 +255,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 }

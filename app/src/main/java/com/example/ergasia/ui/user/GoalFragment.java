@@ -43,6 +43,7 @@ public class GoalFragment extends Fragment {
 
         mAuth=FirebaseAuth.getInstance();
         currentUser=mAuth.getCurrentUser();
+        assert currentUser != null;
         String id=currentUser.getUid();
 
 
