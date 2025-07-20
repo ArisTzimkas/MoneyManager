@@ -17,89 +17,107 @@
             android:id="@+id/LoginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="64dp"
             android:text="ΣΥΝΔΕΣΗ"
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textPasswordLogin" />
-
-        <EditText
-            android:id="@+id/textEmailLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4" />
-
-        <EditText
-            android:id="@+id/textPasswordLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.7" />
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email:"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toTopOf="@+id/textEmailLogin"
-            app:layout_constraintStart_toStartOf="@+id/textEmailLogin" />
-
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Κωδικός:"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toTopOf="@+id/textPasswordLogin"
-            app:layout_constraintStart_toStartOf="@+id/textPasswordLogin" />
+            app:layout_constraintTop_toBottomOf="@+id/textPasswordLoginLayout" />
 
         <TextView
             android:id="@+id/tvRegisterHere"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
             android:text="Δημιουργία"
             android:textColor="#FF5500"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView17"
-            app:layout_constraintStart_toEndOf="@+id/textView17" />
+            app:layout_constraintEnd_toEndOf="@+id/textPasswordLoginLayout" />
 
         <TextView
             android:id="@+id/textView17"
             android:layout_width="119dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
             android:text="Δεν έχεις λογαριασμό;"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/textPasswordLogin"
+            app:layout_constraintStart_toStartOf="@+id/textPasswordLoginLayout"
             app:layout_constraintTop_toBottomOf="@+id/LoginButton" />
 
         <TextView
             android:id="@+id/textView23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginTop="94dp"
             android:text="Σύνδεση"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView13"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textEmailLoginLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Email"
+
+            android:textColorHint="@color/white"
+
+            app:boxStrokeColor="@color/teal"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/white"
+            app:startIconDrawable="@drawable/email"
+            app:startIconTint="@null"
+            app:hintTextColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView23">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textEmailLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:inputType="textEmailAddress"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textPasswordLoginLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Password"
+
+            android:textColorHint="@color/white"
+
+            app:boxStrokeColor="@color/teal"
+            app:startIconDrawable="@drawable/password"
+            app:startIconTint="@null"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/white"
+            app:hintTextColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textEmailLoginLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textPasswordLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

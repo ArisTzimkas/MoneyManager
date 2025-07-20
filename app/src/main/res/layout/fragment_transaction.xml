@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transaction_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.transactions.TransactionFragment"
+    android:background="@drawable/background"
+    >
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageNoData"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="64dp"
+        android:src="@drawable/nodata"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/Recycler"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textNoData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:text="Δέν υπάρχουν συναλλαγές"
+        app:layout_constraintEnd_toEndOf="@+id/Recycler"
+        app:layout_constraintStart_toStartOf="@+id/Recycler"
+        app:layout_constraintTop_toBottomOf="@+id/imageNoData" />
+</androidx.constraintlayout.widget.ConstraintLayout>

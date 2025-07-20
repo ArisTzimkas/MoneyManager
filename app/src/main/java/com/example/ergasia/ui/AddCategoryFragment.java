@@ -21,9 +21,6 @@ public class AddCategoryFragment extends Fragment {
     private FragmentAddCategoryBinding binding;
 
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

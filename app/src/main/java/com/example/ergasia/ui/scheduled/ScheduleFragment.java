@@ -32,25 +32,17 @@ import java.util.List;
 import java.util.Locale;
 
 public class ScheduleFragment extends Fragment {
-
     private @NonNull FragmentScheduleBinding binding;
-
-    private CalendarView calendarView;
-    private Button saveButton;
     private Calendar selectedDate;
-
     FirebaseAuth mAuth;
-
     View root;
-
     String formattedDate;
     String user;
 
 
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_schedule, container, false);
-        calendarView=root.findViewById(R.id.calendarView);
+        CalendarView calendarView = root.findViewById(R.id.calendarView);
 
         calendarView.setMinDate(System.currentTimeMillis());
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -67,44 +59,34 @@ public class ScheduleFragment extends Fragment {
         });
         mAuth= FirebaseAuth.getInstance();
         FirebaseUser currentUser=mAuth.getCurrentUser();
+        assert currentUser != null;
         user=currentUser.getUid();
 
-
         EditText valueEditText=root.findViewById(R.id.scheduleInput);
-        saveButton=root.findViewById(R.id.scheduleSave);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String valueString = valueEditText.getText().toString().trim();
-                if (!valueString.isEmpty()) {
-                    int value = Integer.parseInt(valueString);
-                    int sid=MainActivity.myDatabase.myDao().getLastSchedule();
+        Button saveButton = root.findViewById(R.id.scheduleSave);
+        saveButton.setOnClickListener(v -> {
+            String valueString = valueEditText.getText().toString().trim();
+            if (!valueString.isEmpty()) {
+                int value = Integer.parseInt(valueString);
+                int sid=MainActivity.myDatabase.myDao().getLastSchedule();
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                formattedDate = sdf.format(selectedDate.getTime());
 
-                    formattedDate = sdf.format(selectedDate.getTime());
+                Schedule schedule=new Schedule();
+                schedule.setSid(sid+1);
+                schedule.setValue(value);
+                schedule.setCat_name(user);
+                schedule.setDate(String.valueOf(formattedDate));
 
-                    Schedule schedule=new Schedule();
-                    schedule.setSid(sid+1);
-                    schedule.setValue(value);
-                    schedule.setCat_name(user);
-                    schedule.setDate(String.valueOf(formattedDate));
+                MainActivity.myDatabase.myDao().addSchedule(schedule);
+                Toast.makeText(getActivity(), "Επιτυχής Προσθήκη", Toast.LENGTH_SHORT).show();
+                valueEditText.setText("");
 
-
-                    MainActivity.myDatabase.myDao().addSchedule(schedule);
-                    Toast.makeText(getActivity(), "Επιτυχής Προσθήκη", Toast.LENGTH_SHORT).show();
-                    valueEditText.setText("");
-
-                } else {
-                    Toast.makeText(getActivity(), "Παρακαλώ πληκτρολογίστε ένα ποσό", Toast.LENGTH_SHORT).show();
-                }
+            } else {
+                Toast.makeText(getActivity(), "Παρακαλώ πληκτρολογίστε ένα ποσό", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
-
         return root;
     }
 
