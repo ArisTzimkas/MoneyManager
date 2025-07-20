@@ -42,8 +42,7 @@ public class HomeFragment extends Fragment {
 
     int total;
 
-
-
+    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
