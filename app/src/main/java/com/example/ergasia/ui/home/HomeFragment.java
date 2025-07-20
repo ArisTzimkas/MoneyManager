@@ -38,6 +38,7 @@ public class HomeFragment extends Fragment {
     FirebaseUser currentUser;
     int total;
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
