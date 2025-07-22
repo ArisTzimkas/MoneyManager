@@ -32,19 +32,29 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 
 public class HomeFragment extends Fragment {
+
     private FragmentHomeBinding binding;
+
     TextView textLast;
+
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+
     int total;
 
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        HomeViewModel homeViewModel =
+                new ViewModelProvider(this).get(HomeViewModel.class);
+
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
         textLast = root.findViewById(R.id.textLastTr);
+
+
 
         mAuth=FirebaseAuth.getInstance();
         try {
@@ -52,7 +62,9 @@ public class HomeFragment extends Fragment {
             currentUser = mAuth.getCurrentUser();
             if (currentUser == null) {
                 Log.e("HomeFragment", "Current user is null");
+
                 Toast.makeText(getContext(), "Παρακαλώ πραγματοποιήστε σύνδεση με λογαριασμό", Toast.LENGTH_SHORT).show();
+
                 return root;
             }
 
@@ -61,7 +73,6 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
             Log.e("HomeFragment", "Error retrieving last transaction: " + e.getMessage());
         }
-
         Transactions lastTransaction = MainActivity.myDatabase.myDao().getLastTransaction(currentUser.getUid());
 
         if (lastTransaction == null) {
@@ -110,7 +121,7 @@ public class HomeFragment extends Fragment {
                                 }
                             }else {
                                 p2.setVisibility(View.GONE);
-                                textpro2.setText("Δεν έχει οριστεί στόχος, μεταβείτε στο 'Λογαριασμός'.");
+                                textpro2.setText("Δεν έχει οριστεί στόχος, μεταβείτε στο Λογαριασμός.");
                             }
                         }
                     }
@@ -132,12 +143,17 @@ public class HomeFragment extends Fragment {
             
             int totalIncome = MainActivity.myDatabase.myDao().getTotalIncome(currentUser.getUid());
             int totalExpenses = MainActivity.myDatabase.myDao().getTotalExpenses(currentUser.getUid());
+
+
             int totalAmount = totalIncome + totalExpenses;
+
+
 
             if (totalAmount != 0) {
 
                 double incomePercentage = (double) totalIncome / totalAmount * 100;
                 double expensesPercentage = (double) totalExpenses / totalAmount * 100;
+
 
                 int roundedIncomePercentage = (int) Math.round(incomePercentage);
                 int roundedExpensesPercentage = (int) Math.round(expensesPercentage);
@@ -162,12 +178,39 @@ public class HomeFragment extends Fragment {
                 textprogress.setText("Δεν υπάρχουν συναλλαγές");
             }
 
+
+
+
+
+
         } catch (Exception e) {
             Log.e("HomeFragment", "Error calculating progress bar: " + e.getMessage());
         }
         setHasOptionsMenu(false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         return root;
     }
+
+
+
+
+
+
+
+
 
 
     @Override
