@@ -93,7 +93,7 @@ public class ScheduleFragment extends Fragment {
     private void displaySchedules(List<Schedule> schedules) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Schedule schedule : schedules) {
-            stringBuilder.append("\nΗμερομηνία: ").append(schedule.getDate()).append(", Ποσό: ").append(schedule.getValue()).append("   ");
+            stringBuilder.append("Ημερομηνία: ").append(schedule.getDate()).append(", Ποσό: ").append(schedule.getValue()).append("   \n");
         }
         TextView dispText=root.findViewById(R.id.displaySchedule);
         dispText.setText(stringBuilder.toString());

@@ -11,45 +11,41 @@
         android:id="@+id/calendarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/calendar_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:theme="@style/CalenderViewCustom"
         android:dateTextAppearance="@style/CalenderViewCustomDate"
+        android:theme="@style/CalenderViewCustom"
         android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
 
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/displayAreaScrollView"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/corners"
+        android:clipToOutline="true"
         android:fillViewport="true"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
         android:scrollbarFadeDuration="0"
         android:scrollbars="vertical"
         android:verticalScrollbarPosition="right"
-        android:scrollbarAlwaysDrawHorizontalTrack="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView"
-        android:clipToOutline="true">
+        app:layout_constraintTop_toTopOf="@+id/calendarView">
 
         <TextView
             android:id="@+id/displaySchedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
             android:text="Εδώ θα εμφανίζονται τα αποθηκευμένα ποσά."
             android:textColor="@color/white"
-            android:layout_marginTop="5dp"
-            android:textSize="15sp"
-            android:layout_gravity="top"
-            android:gravity="center_horizontal"/>
+            android:textSize="15sp" />
     </ScrollView>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -57,16 +53,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="24dp"
         android:hint="Ποσό :"
         android:textColorHint="#B0FFFFFF"
         app:boxStrokeColor="@color/teal"
         app:hintTextColor="#B0FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/displayAreaScrollView">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/displayAreaScrollView"
+        app:layout_constraintStart_toStartOf="@+id/displayAreaScrollView"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/scheduleInput"
@@ -81,15 +75,14 @@
         android:id="@+id/scheduleSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:paddingStart="24dp"
         android:paddingTop="12dp"
         android:paddingEnd="24dp"
         android:paddingBottom="12dp"
         android:text="αποθηκευση"
         android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+        app:layout_constraintBottom_toBottomOf="@+id/calendarView"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

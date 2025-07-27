@@ -71,6 +71,7 @@
         app:boxStrokeColor="@color/teal"
         app:endIconMode="clear_text"
         app:endIconTint="@color/white"
+        app:errorEnabled="true"
         app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,8 +83,8 @@
             android:id="@+id/textEmailCreate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -95,12 +96,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
 
-        android:hint="Password"
+        android:hint="Κωδικός"
 
         android:textColorHint="@color/white"
         app:boxStrokeColor="@color/teal"
         app:endIconMode="password_toggle"
         app:endIconTint="@color/white"
+        app:errorEnabled="true"
         app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -112,8 +114,8 @@
             android:id="@+id/textPasswordCreate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -131,21 +133,22 @@
         app:boxStrokeColor="@color/teal"
         app:endIconMode="clear_text"
         app:endIconTint="@color/white"
-        app:suffixText="€"
-        app:suffixTextColor="@color/white"
+        app:errorEnabled="true"
         app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPasswordCreateLayout"
         app:startIconDrawable="@drawable/money"
-        app:startIconTint="@null">
+        app:startIconTint="@null"
+        app:suffixText="€"
+        app:suffixTextColor="@color/white">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputSetTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

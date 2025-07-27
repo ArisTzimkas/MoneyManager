@@ -19,13 +19,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
-    EditText textEmailLogin;
-    EditText textPasswordLogin;
+    TextInputEditText textEmailLogin;
+    TextInputEditText textPasswordLogin;
     TextView gotoRegister;
     Button loginB;
 
@@ -58,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        getSupportActionBar().setTitle("Σύνδεση με λογαριασμό");
+
 
 
     }
@@ -67,27 +69,42 @@ public class LoginActivity extends AppCompatActivity {
     private void loginUser(){
         String email=textEmailLogin.getText().toString();
         String password=textPasswordLogin.getText().toString();
+        TextInputLayout emailLayout=findViewById(R.id.textEmailLoginLayout);
+        TextInputLayout passwordLayout=findViewById(R.id.textPasswordLoginLayout);
+        boolean isValid=true;
 
         if(TextUtils.isEmpty(email)){
-            textEmailLogin.setError("Το Email είναι απαραίτητο");
-            textEmailLogin.requestFocus();
-        } else if (TextUtils.isEmpty(password)) {
-            textPasswordLogin.setError("Ο Κωδικός είναι απαραίτητος");
-            textPasswordLogin.requestFocus();
+            emailLayout.setError("Απαιτείται *");
+            if(isValid){
+                textEmailLogin.requestFocus();
+            }
+            isValid=false;
+        }else{
+            emailLayout.setError(null);
         }
-        else {
-            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(LoginActivity.this, "Επιτυχής σύνδεση", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    }
-                    else{
-                        Toast.makeText(LoginActivity.this, "Η σύνδεση απέτυχε: "+task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                    }
+        if (TextUtils.isEmpty(password)) {
+            passwordLayout.setError("Απαιτείται *");
+            if(isValid){
+                textPasswordLogin.requestFocus();
+            }
+            isValid=false;
+        }else {
+            passwordLayout.setError(null);
+        }
+        if(!isValid){
+            return;
+        }
+        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(LoginActivity.this, "Επιτυχής σύνδεση", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
-            });
-        }
+                else{
+                    Toast.makeText(LoginActivity.this, "Η σύνδεση απέτυχε: "+task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

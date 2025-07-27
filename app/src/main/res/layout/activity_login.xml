@@ -52,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="94dp"
+            android:fontFamily="sans-serif-black"
             android:text="Σύνδεση"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
@@ -74,19 +75,20 @@
             app:boxStrokeColor="@color/teal"
             app:endIconMode="clear_text"
             app:endIconTint="@color/white"
-            app:startIconDrawable="@drawable/email"
-            app:startIconTint="@null"
+            app:errorEnabled="true"
             app:hintTextColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView23">
+            app:layout_constraintTop_toBottomOf="@+id/textView23"
+            app:startIconDrawable="@drawable/email"
+            app:startIconTint="@null">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textEmailLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress"
+                android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -97,26 +99,27 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            android:hint="Password"
+            android:hint="Κωδικός"
 
             android:textColorHint="@color/white"
 
             app:boxStrokeColor="@color/teal"
-            app:startIconDrawable="@drawable/password"
-            app:startIconTint="@null"
             app:endIconMode="password_toggle"
             app:endIconTint="@color/white"
+            app:errorEnabled="true"
             app:hintTextColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textEmailLoginLayout">
+            app:layout_constraintTop_toBottomOf="@+id/textEmailLoginLayout"
+            app:startIconDrawable="@drawable/password"
+            app:startIconTint="@null">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textPasswordLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
 

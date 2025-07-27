@@ -1,7 +1,6 @@
 package com.example.ergasia;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,11 +13,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +31,8 @@ import com.example.ergasia.database.UserTotal;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -46,15 +45,15 @@ import java.util.Date;
 
 import java.util.List;
 import java.util.Locale;
+import androidx.appcompat.app.AppCompatActivity;
 
 
-public class PopUp extends Activity {
-    private static final int NOTIFICATION_ID = 1;
+public class PopUp extends AppCompatActivity {
     String selectedCategory;
     String selectedExpenseCategory;
     public int id;
     FirebaseAuth mAuth;
-    Spinner sItems2;
+    AutoCompleteTextView sItems2;
     int value = 0;
     int newTotal;
 
@@ -73,7 +72,7 @@ public class PopUp extends Activity {
 
             int width = dm.widthPixels;
             int height = dm.heightPixels;
-            getWindow().setLayout((int) (width * .8), (int) (height * .7));
+            getWindow().setLayout((int) (width * .85), (int) (height * .7));
 
             WindowManager.LayoutParams params = getWindow().getAttributes();
             params.gravity = Gravity.CENTER;
@@ -83,16 +82,11 @@ public class PopUp extends Activity {
             ///////////////////////////////////////////End layout parameters
 
 
-            Button bclose = (Button) findViewById(R.id.button_close);
-            Button bsave = (Button) findViewById(R.id.button_save);
+            Button bclose = findViewById(R.id.button_close);
+            Button bsave = findViewById(R.id.button_save);
 
             ////////////////////////////////////////////////////////press ΑΚΥΡΟ
-            bclose.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
+            bclose.setOnClickListener(v -> finish());
 
 
             /////////////////////////////////////////////////////Fill spinner
@@ -100,24 +94,21 @@ public class PopUp extends Activity {
             spinArray.add("ΕΣΟΔΑ");
             spinArray.add("ΕΞΟΔΑ");
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinArray);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            Spinner sItems = (Spinner) findViewById(R.id.spinner);
-            sItems.setAdapter(adapter);
-            sItems.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                    String selectedCategory = parentView.getItemAtPosition(position).toString();
-                    if (selectedCategory.equals("ΕΞΟΔΑ")) {
-                        sItems2.setEnabled(true);
-                    } else {
-                        sItems2.setEnabled(false);
-                    }
-                }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parentView) {
-                    // Do nothing
+            TextInputLayout spinnerLayout = findViewById(R.id.spinnerLayout);
+            TextInputLayout spinnerLayout2 = findViewById(R.id.spinnerLayout2);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_menu, spinArray);
+            AutoCompleteTextView sItems = findViewById(R.id.spinner);
+            sItems.setAdapter(adapter);
+
+            sItems.setOnItemClickListener((parentView, view, position, id) -> {
+                String currentCategorySelection = parentView.getItemAtPosition(position).toString();
+                if (currentCategorySelection.equals("ΕΞΟΔΑ")) {
+                    spinnerLayout2.setVisibility(View.VISIBLE);
+                } else {
+                    spinnerLayout2.setVisibility(View.GONE);
+                    sItems2.setText("", false); // clear the text when disabling
                 }
             });
 
@@ -131,7 +122,7 @@ public class PopUp extends Activity {
 
             ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinArray2);
             adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            sItems2 = (Spinner) findViewById(R.id.spinner2);
+            sItems2 = findViewById(R.id.spinner2);
             sItems2.setAdapter(adapter2);
 
 
@@ -149,88 +140,112 @@ public class PopUp extends Activity {
 
 
         ///////////////////////////////////////////////////////press ΑΠΟΘΗΚΕΥΣΗ
-        bsave.setOnClickListener(new View.OnClickListener() {
+        bsave.setOnClickListener(v -> {
+            //MainActivity.myDatabase.myDao().deleteAllFromTransactions();
 
-            @Override
-            public void onClick(View v) {
-                //MainActivity.myDatabase.myDao().deleteAllFromTransactions();
+            selectedCategory = sItems.getText().toString();
+            selectedExpenseCategory = sItems2.getText().toString();
+            TextInputLayout valueLayout=findViewById(R.id.textInputLayout2);
+            TextInputEditText valueInput=findViewById(R.id.valueInput);
 
-                selectedCategory = sItems.getSelectedItem().toString();
-                selectedExpenseCategory = sItems2.getSelectedItem().toString();
-                EditText valueInput=findViewById(R.id.valueInput);
 
+
+
+
+            String valueText = valueInput.getText().toString().trim();
+            boolean isValid= true;
+
+            if(TextUtils.isEmpty(valueText)||valueText.equals("0")){
+                valueLayout.setError("Απαιτείται *");
+                valueLayout.requestFocus();
+                isValid=false;
+            }else{
+                valueLayout.setError(null);
                 try {
                     value = Integer.parseInt(valueInput.getText().toString());
                 } catch (NumberFormatException e) {
                     System.out.println("Could not parse " + e);
                 }
+            }
+            if(selectedCategory.isEmpty()){
+                spinnerLayout.setError("Απαιτείται *");
+                if(isValid){
+                    spinnerLayout.requestFocus();
 
-                String valueText = valueInput.getText().toString().trim();
-                if(!TextUtils.isEmpty(valueText)) {
-                    mAuth = FirebaseAuth.getInstance();
-                    FirebaseUser currentUser = mAuth.getCurrentUser();
-
-                    Calendar calendar = Calendar.getInstance();
-                    Date currentDate = calendar.getTime();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                    String formattedDate = sdf.format(currentDate);
-
-                    Transactions transactions = new Transactions();
-                    transactions.setId(id);
-                    transactions.setType(selectedCategory);
-                    transactions.setValue(value);
-                    assert currentUser != null;
-                    transactions.setUserId(currentUser.getUid());
-                    transactions.setDate(formattedDate);
-                    int categoryId = MainActivity.myDatabase.myDao().getCatId(selectedExpenseCategory);
-                    transactions.setCatId(categoryId);
-                    id++;
-
-                    //Inform MainActivity the save is pressed to refresh the fragment
-                    Intent intent = new Intent("com.example.ergasia.SAVE_BUTTON_CLICKED");
-                    LocalBroadcastManager.getInstance(PopUp.this).sendBroadcast(intent);
-
-                    MainActivity.myDatabase.myDao().addTransaction(transactions);
-
-                    MainActivity.db.collection("UserTotal").document("" + currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-
-                                    Object fieldValue = document.get("total");
-                                    long totalLong = (long) fieldValue;
-                                    int total = (int) totalLong;
-                                    UserTotal userTotal=new UserTotal();
-                                    if(selectedCategory.equals("ΕΣΟΔΑ")){
-                                        newTotal=total+value;
-                                        userTotal.setUid(currentUser.getUid());
-                                        userTotal.setTotal(newTotal);
-                                        MainActivity.db.collection("UserTotal").document(""+currentUser.getUid()).set(userTotal);
-                                    }
-                                    else {
-                                        newTotal=total-value;
-                                        userTotal.setUid(currentUser.getUid());
-                                        userTotal.setTotal(newTotal);
-                                        MainActivity.db.collection("UserTotal").document(""+currentUser.getUid()).set(userTotal);
-                                    }
-
-
-                                }
-                            }
-                        }
-                    });
-                    // Finish activity
-                    finish();
-                    //notification creation
-                    createNotification();
                 }
-                else {
-                    valueInput.setError("Συμπληρώστε");
-                    valueInput.requestFocus();
+                isValid=false;
+            }else {
+                spinnerLayout.setError(null);
+            }
+            if(selectedCategory.equals("ΕΞΟΔΑ")){
+                if(selectedExpenseCategory.isEmpty()){
+                    spinnerLayout2.setError("Απαιτείται *");
+                    if(isValid){
+                        spinnerLayout2.requestFocus();
+
+                    }
+                    isValid=false;
+                }else {
+                    spinnerLayout2.setError(null);
                 }
             }
+            if(!isValid){
+                return;
+            }
+
+            mAuth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+
+            Calendar calendar = Calendar.getInstance();
+            Date currentDate = calendar.getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            String formattedDate = sdf.format(currentDate);
+
+            Transactions transactions = new Transactions();
+            transactions.setId(id);
+            transactions.setType(selectedCategory);
+            transactions.setValue(value);
+            assert currentUser != null;
+            transactions.setUserId(currentUser.getUid());
+            transactions.setDate(formattedDate);
+            int categoryId = MainActivity.myDatabase.myDao().getCatId(selectedExpenseCategory);
+            transactions.setCatId(categoryId);
+            id++;
+
+                //Inform MainActivity the save is pressed to refresh the transaction fragment
+            Intent intent = new Intent("com.example.ergasia.SAVE_BUTTON_CLICKED");
+            LocalBroadcastManager.getInstance(PopUp.this).sendBroadcast(intent);
+
+            MainActivity.myDatabase.myDao().addTransaction(transactions);
+
+            MainActivity.db.collection("UserTotal").document("" + currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+
+                            Object fieldValue = document.get("total");
+                            long totalLong = (long) fieldValue;
+                            int total = (int) totalLong;
+                            UserTotal userTotal=new UserTotal();
+                            if(selectedCategory.equals("ΕΣΟΔΑ")){
+                                newTotal=total+value;
+                            }
+                            else {
+                                newTotal=total-value;
+                            }
+                            userTotal.setUid(currentUser.getUid());
+                            userTotal.setTotal(newTotal);
+                            MainActivity.db.collection("UserTotal").document(""+currentUser.getUid()).set(userTotal);
+                        }
+                    }
+                }
+            });
+                // Finish activity
+            finish();
+                //notification creation
+            createNotification();
         });
         }catch(Exception e) {
             Log.e("PopUpActivity", "Error in onCreate(): " + e.getMessage());

@@ -6,15 +6,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/baseline_home_24"
+            android:icon="@drawable/home"
             android:title="Αρχική" />
         <item
             android:id="@+id/nav_transactions"
-            android:icon="@drawable/baseline_currency_exchange_24"
+            android:icon="@drawable/money1"
             android:title="Συναλλαγές" />
         <item
             android:id="@+id/nav_schedule"
-            android:icon="@drawable/baseline_schedule_24"
+            android:icon="@drawable/schedule"
             android:title="Προγραμματισμός εξόδων" />
 
         <item
@@ -23,11 +23,11 @@
             android:title="Αναζήτηση εξόδων" />
         <item
             android:id="@+id/nav_user"
-            android:icon="@drawable/baseline_person_24"
+            android:icon="@drawable/person"
             android:title="Λογαριασμός" />
         <item
             android:id="@+id/nav_about"
-            android:icon="@drawable/baseline_info_24"
+            android:icon="@drawable/about"
             android:title="Πληροφορίες εφαρμογής" />
 
 
