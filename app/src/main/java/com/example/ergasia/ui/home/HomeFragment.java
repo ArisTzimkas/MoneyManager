@@ -2,9 +2,11 @@ package com.example.ergasia.ui.home;
 import static com.example.ergasia.MainActivity.db;
 
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 
@@ -13,12 +15,17 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.photopicker.EmbeddedPhotoPickerFeatureInfo;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.ergasia.MainActivity;
 import com.example.ergasia.R;
 import com.example.ergasia.database.Transactions;
@@ -29,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.io.File;
 
 
 public class HomeFragment extends Fragment {
@@ -41,6 +49,9 @@ public class HomeFragment extends Fragment {
     FirebaseUser currentUser;
 
     int total;
+    private static final String PROFILE_IMAGE_FILENAME_PREFIX = "profile_";
+    private static final String PROFILE_IMAGE_FILENAME_SUFFIX = ".jpg";
+
 
 
     @Override
@@ -87,7 +98,7 @@ public class HomeFragment extends Fragment {
 
         TextView dTotal=root.findViewById(R.id.displayTotal);
 
-        MainActivity.db.collection("UserTotal").document("" + currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("UserTotal").document("" + currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -115,7 +126,7 @@ public class HomeFragment extends Fragment {
                                     p2.setProgress(percentage);
                                     p2.setMax(100);
 
-                                    MainActivity.db.collection("UserGoal").document(""+currentUser.getUid()).update("percent", percentage);
+                                    db.collection("UserGoal").document(""+currentUser.getUid()).update("percent", percentage);
 
                                     textpro2.setText(percentage+"%");
                                 }
@@ -188,34 +199,54 @@ public class HomeFragment extends Fragment {
         }
         setHasOptionsMenu(false);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         return root;
     }
 
-
-
-
-
-
-
-
-
+    public void onStart() {
+        super.onStart();
+        displayCurrentUserProfileImage();
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void displayCurrentUserProfileImage() {
+        if (getContext() == null || binding.profileImage == null) {
+            return;
+        }
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        File profileImageFile = null;
+
+        if (currentUser != null) {
+            // Use the local method to get the file
+            profileImageFile = getProfileImageFileForUser(getContext(), currentUser.getUid());
+        }
+
+        if (profileImageFile != null && profileImageFile.exists() && profileImageFile.length() > 0) {
+            Glide.with(this)
+                    .load(profileImageFile)
+                    .signature(new ObjectKey(String.valueOf(profileImageFile.lastModified())))
+                    .placeholder(R.drawable.baseline_person_24)
+                    .error(R.drawable.baseline_person_24)
+                    .circleCrop()
+                    .into(binding.profileImage);
+        } else {
+            Glide.with(this)
+                    .load(R.drawable.baseline_person_24)
+                    .circleCrop()
+                    .into(binding.profileImage);
+        }
+    }
+
+    private File getProfileImageFileForUser(Context context, String userId) {
+        if (context == null || userId == null || userId.isEmpty()) {
+            return null;
+        }
+        String userSpecificFilename = PROFILE_IMAGE_FILENAME_PREFIX + userId + PROFILE_IMAGE_FILENAME_SUFFIX;
+        return new File(context.getFilesDir(), userSpecificFilename);
     }
 }

@@ -4,10 +4,10 @@
 
     <gradient
 
-        android:endColor="#002463"
-        android:startColor="#FFFFFF"
+        android:endColor="#7F002463"
+        android:startColor="@color/blue_menu"
         android:type="radial"
-        android:gradientRadius="80%p"
+        android:gradientRadius="99%p"
          />
     <corners
         android:radius="30dp" />
