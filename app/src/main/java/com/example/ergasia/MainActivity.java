@@ -1,14 +1,14 @@
 package com.example.ergasia;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -26,6 +26,8 @@ import com.example.ergasia.database.MyDatabase;
 import com.google.android.material.navigation.NavigationView;
 
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -54,20 +56,19 @@ public class MainActivity extends AppCompatActivity {
     public  static FirebaseFirestore db;
 
     private boolean permissionRequested = false;
-    private static final String PERMISSION_REQUESTED_KEY = "permission_requested";
+    private static final String CUSTOM_SETTINGS_DIALOG_SHOWN_KEY = "custom_settings_dialog_shown";
+    private final ActivityResultLauncher<String> requestNotificationPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {});
     private boolean showOptionMenu=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("MainActivity", "onCreate() called");
-        permissionRequested = getPermissionRequestedState();
-
-        // Check notification permissions if needed
+        //ask for permission
         if (!permissionRequested) {
-            requestNotificationPermissionIfNeeded();
+            checkAndRequestNotificationPermission();
         }
-        invalidateOptionsMenu(); // This is KEY: tells Android to redraw the options menu
+        invalidateOptionsMenu();
         try {
             myDatabase = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "UserDB")
                     .addMigrations(new Migration1to2(1, 2), new Migration2to3(2, 3))
@@ -212,50 +213,44 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         IntentFilter filter = new IntentFilter("com.example.ergasia.SAVE_BUTTON_CLICKED");
         LocalBroadcastManager.getInstance(this).registerReceiver(saveButtonReceiver, filter);
-        Log.d("MainActivity", "onStart() called");
-
-
     }
 
 
-    private void requestNotificationPermissionIfNeeded() {
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        if (notificationManager != null && !notificationManager.isNotificationPolicyAccessGranted()) {
-            showNotificationPermissionDialog();
+    private void checkAndRequestNotificationPermission() {
+        permissionRequested = true;
+        //Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+        }
+        //Android 12 and below
+        else{
+            showCustomNotificationSettingsDialog();
         }
     }
 
-    private void showNotificationPermissionDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Άδεια Ειδοποιήσεων");
-        builder.setMessage("Η εφαρμογή χρειάζεται πρόσβαση στις ειδοποιήσεις για να λειτουργεί σωστά");
-        builder.setPositiveButton("Ρυθμίσεις", (dialog, which) -> {
-            Intent intent = new Intent();
-            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            Uri uri = Uri.fromParts("package", getPackageName(), null);
-            intent.setData(uri);
-            startActivity(intent);
 
-
-            permissionRequested = true;
-            savePermissionRequestedState();
-        });
-
-        builder.show();
+    private void showCustomNotificationSettingsDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Άδεια Ειδοποιήσεων")
+                .setMessage("Η εφαρμογή χρειάζεται πρόσβαση στις ειδοποιήσεις για να λειτουργεί σωστά. Παρακαλώ ενεργοποιήστε τις από τις ρυθμίσεις της εφαρμογής.")
+                .setPositiveButton("Ρυθμίσεις", (dialog, which) -> {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                    intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                    startActivity(intent);
+                    saveCustomSettingsDialogShownState();
+                })
+                .setNegativeButton("Άκυρο", (dialog, which) -> {
+                    Toast.makeText(this, "Οι ειδοποιήσεις παραμένουν απενεργοποιημένες.", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }).setOnDismissListener(dialog -> {}).show();
     }
 
-
-    private void savePermissionRequestedState() {
+    private void saveCustomSettingsDialogShownState() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(PERMISSION_REQUESTED_KEY, true);
+        editor.putBoolean(CUSTOM_SETTINGS_DIALOG_SHOWN_KEY, true);
         editor.apply();
-    }
-
-
-    private boolean getPermissionRequestedState() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        return sharedPreferences.getBoolean(PERMISSION_REQUESTED_KEY, false);
     }
 
 
@@ -266,14 +261,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "onStop() called");
     }
 
-    // Inflate the menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
-
 
     @Override
     public boolean onSupportNavigateUp() {

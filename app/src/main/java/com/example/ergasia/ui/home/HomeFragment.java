@@ -4,7 +4,6 @@ import static com.example.ergasia.MainActivity.db;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -118,9 +117,6 @@ public class HomeFragment extends Fragment {
                                     int percentage = (total * 100) / goal;
 
                                     p2.setProgressWithAnimation((float) percentage, 3000L);
-                                    p2.setProgressBarColorStart(Color.CYAN);
-                                    p2.setProgressBarColorEnd(Color.GREEN);
-                                    p2.setBackgroundProgressBarColor(Color.GRAY);
                                     p2.setProgressMax(100);
 
                                     db.collection("UserGoal").document("" + currentUser.getUid()).update("percent", percentage);
@@ -155,10 +151,6 @@ public class HomeFragment extends Fragment {
                 int roundedIncomePercentage = (int) Math.round(incomePercentage);
                 int roundedExpensesPercentage = (int) Math.round(expensesPercentage);
 
-                progressBar.setProgressBarColorStart(Color.CYAN);
-                progressBar.setProgressBarColorEnd(Color.GREEN);
-                progressBar.setBackgroundProgressBarColorStart(Color.RED);
-                progressBar.setBackgroundProgressBarColorEnd(Color.RED);
                 binding.progressBar1Loading.setVisibility(View.GONE);
                 progressBar.setProgressWithAnimation((float) roundedIncomePercentage, 3000L);
                 progressBar.setProgressMax(100);
@@ -170,6 +162,7 @@ public class HomeFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 binding.textIn.setVisibility(View.GONE);
                 binding.textOut.setVisibility(View.GONE);
+                binding.progressBar1Loading.setVisibility(View.GONE);
                 binding.textpro.setText("Δεν υπάρχουν συναλλαγές");
             }
         } catch (Exception e) {

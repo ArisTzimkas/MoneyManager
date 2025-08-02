@@ -1,5 +1,6 @@
 package com.example.ergasia.ui.user;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +19,6 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
@@ -64,14 +64,12 @@ public class UserFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //for userImage
         pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
-
-                    if (uri != null) {
-                        Log.d("PhotoPicker", "Selected URI: " + uri);
-                        saveImageForCurrentUser(uri,currentUser.getUid());
-                    } else {
-                        Log.d("PhotoPicker", "No media selected");
-                    }
-                });
+            if (uri != null) {
+                saveImageForCurrentUser(uri,currentUser.getUid());
+            } else {
+                Log.d("PhotoPicker", "No media selected");
+            }
+        });
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,12 +100,25 @@ public class UserFragment extends Fragment {
             id.setText(currentUser.getUid());
         }
 
-
         logout.setOnClickListener(v -> {
             mAuth.signOut();
             startActivity(new Intent(requireActivity(), LoginActivity.class));
         });
 
+        //Deletes the user from authentication but the data stored with that userId remain in database
+        binding.buttonDelete.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Διαγραφή Προφίλ");
+            builder.setMessage("Είστε σίγουροι ότι θέλετε να διαγράψετε το προφίλ σας?");
+            builder.setPositiveButton("ok", (dialog, which) -> currentUser.delete().addOnCompleteListener(task ->{
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getContext(), "Προφίλ διαγράφτηκε", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(requireActivity(), LoginActivity.class));
+                        }}))
+                    .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
 
         goal.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_to_goal));
 
@@ -170,15 +181,9 @@ public class UserFragment extends Fragment {
     }
 
     private void saveImageForCurrentUser(Uri sourceUri, String userId) {
-        if (getContext() == null || sourceUri == null || userId == null || userId.isEmpty()) {
-            Toast.makeText(getContext(), "Error saving image. Missing data.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         String userSpecificFilename = PROFILE_IMAGE_FILENAME_PREFIX + userId + PROFILE_IMAGE_FILENAME_SUFFIX;
-        File destinationFile = new File(getContext().getFilesDir(), userSpecificFilename);
-
-        try (InputStream inputStream = getContext().getContentResolver().openInputStream(sourceUri);
+        File destinationFile = new File(requireContext().getFilesDir(), userSpecificFilename);
+        try (InputStream inputStream = requireContext().getContentResolver().openInputStream(sourceUri);
              OutputStream outputStream = Files.newOutputStream(destinationFile.toPath())) {
             byte[] buffer = new byte[1024 * 4];
             int bytesRead;
