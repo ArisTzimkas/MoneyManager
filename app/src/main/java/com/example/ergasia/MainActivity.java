@@ -48,13 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    private static final int REQUEST_CODE_POPUP = 1;
 
     public static com.example.ergasia.database.MyDatabase myDatabase;
 
     public  static FirebaseFirestore db;
-
-    private FirebaseAuth mAuth;
 
     private boolean permissionRequested = false;
     private static final String PERMISSION_REQUESTED_KEY = "permission_requested";
@@ -85,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         //firebase
         db=FirebaseFirestore.getInstance();
         //authentication
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {

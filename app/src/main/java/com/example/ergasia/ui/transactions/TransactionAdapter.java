@@ -114,7 +114,6 @@ public class TransactionAdapter extends ListAdapter<Transactions, RecyclerView.V
     }
 
     static class OutcomeViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView rerowImage;
         private final TextView rerowType;
         private final TextView rerowId;
         private final TextView rerowAmount;
@@ -123,7 +122,6 @@ public class TransactionAdapter extends ListAdapter<Transactions, RecyclerView.V
 
         public OutcomeViewHolder(@NonNull View itemView) {
             super(itemView);
-            rerowImage = itemView.findViewById(R.id.rerowImage);
             rerowType = itemView.findViewById(R.id.rerowType);
             rerowId = itemView.findViewById(R.id.rerowId);
             rerowAmount = itemView.findViewById(R.id.rerowAmount);

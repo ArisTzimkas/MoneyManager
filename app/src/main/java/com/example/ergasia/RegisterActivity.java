@@ -60,9 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(email)) {
             emailLayout.setError("Απαιτείται *");
-            if (isValid) {
-                emailLayout.requestFocus();
-            }
+            emailLayout.requestFocus();
             isValid = false;
         } else {
             emailLayout.setError(null);
@@ -96,6 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "Επιτυχής δημιουργία", Toast.LENGTH_LONG).show();
 
                 currentUser=mAuth.getCurrentUser();
+                assert currentUser != null;
                 String uid=currentUser.getUid();
                 UserTotal userTotal=new UserTotal();
                 userTotal.setUid(uid);

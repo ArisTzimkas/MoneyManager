@@ -11,14 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
@@ -78,13 +75,13 @@ public class HomeFragment extends Fragment {
             Log.d("HomeFragment", "Last transaction is null. Setting text to default message.");
             binding.textLastTr.setText("Δεν υπάρχουν συναλλαγές");
         } else {
+            Drawable drawable;
             if (lastTransaction.getType().equals("ΕΣΟΔΑ")) {
-                Drawable drawable = getResources().getDrawable(R.drawable.up);
-                binding.imageView.setImageDrawable(drawable);
+                drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.up, null);
             } else {
-                Drawable drawable = getResources().getDrawable(R.drawable.down);
-                binding.imageView.setImageDrawable(drawable);
+                drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.down, null);
             }
+            binding.imageView.setImageDrawable(drawable);
             String stringLast = "Κατηγορία : " + lastTransaction.getType() + "\nΠοσό : " + numberFormatter.format(lastTransaction.getValue()) + "€" + "\nΗμερομηνία : " + lastTransaction.getDate();
             Log.d("HomeFragment", "Last transaction retrieved successfully: " + stringLast);
             binding.textLastTr.setText(stringLast);
@@ -105,7 +102,7 @@ public class HomeFragment extends Fragment {
 
                 binding.progressBar2Loading.setVisibility(View.VISIBLE);
                 db.collection("UserGoal").document("" + currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    final CircularProgressBar p2 = (CircularProgressBar) binding.progressBar2;
+                    final CircularProgressBar p2 = binding.progressBar2;
 
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -118,7 +115,7 @@ public class HomeFragment extends Fragment {
                                 if (fieldValue != null) {
                                     long totalGoal = (long) fieldValue;
                                     int goal = (int) totalGoal;
-                                    int percentage = (int) ((total * 100) / goal);
+                                    int percentage = (total * 100) / goal;
 
                                     p2.setProgressWithAnimation((float) percentage, 3000L);
                                     p2.setProgressBarColorStart(Color.CYAN);
@@ -149,7 +146,7 @@ public class HomeFragment extends Fragment {
             int totalIncome = MainActivity.myDatabase.myDao().getTotalIncome(currentUser.getUid());
             int totalExpenses = MainActivity.myDatabase.myDao().getTotalExpenses(currentUser.getUid());
             int totalAmount = totalIncome + totalExpenses;
-            CircularProgressBar progressBar = (CircularProgressBar) binding.progressBar1;
+            CircularProgressBar progressBar = binding.progressBar1;
 
             if (totalAmount != 0) {
                 double incomePercentage = (double) totalIncome / totalAmount * 100;
@@ -179,7 +176,6 @@ public class HomeFragment extends Fragment {
             Log.e("HomeFragment", "Error calculating progress bar: " + e.getMessage());
         }
 
-        assert binding.profileImage != null;
         binding.profileImage.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_to_user));
 
 
@@ -208,7 +204,7 @@ public class HomeFragment extends Fragment {
 
 
     private void displayCurrentUserProfileImage() {
-        if (getContext() == null || binding.profileImage == null) {
+        if (getContext() == null) {
             return;
         }
 
