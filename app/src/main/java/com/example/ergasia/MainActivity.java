@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
 
 import com.example.ergasia.database.Category;
@@ -27,6 +28,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -85,6 +87,17 @@ public class MainActivity extends AppCompatActivity {
         //authentication
         mAuth = FirebaseAuth.getInstance();
 
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Toast.makeText(this, "Πραγματοποιήστε σύνδεση", Toast.LENGTH_SHORT).show();
+            // Clear the activity stack and finish MainActivity to prevent user from returning
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -110,8 +123,26 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, globalNavController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, globalNavController);
 
-        //Check if current fragment is transaction
         globalNavController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            //Solution for a bug of pressing profileImage to goto user and from user could not navigate to home through menu
+            navigationView.setNavigationItemSelectedListener(item -> {
+                int itemId = item.getItemId();
+                binding.drawerLayout.closeDrawers();
+                if (itemId == R.id.nav_home) {
+                    if (globalNavController.getCurrentDestination() != null && globalNavController.getCurrentDestination().getId() != R.id.nav_home) {
+                        NavOptions navOptions = new NavOptions.Builder()
+                                .setPopUpTo(R.id.nav_home, true) // Pop to Home
+                                .build();
+                        globalNavController.navigate(R.id.nav_home, null, navOptions);
+                    }
+                    return true;
+                } else {
+                    return NavigationUI.onNavDestinationSelected(item, globalNavController); // Let NavUI try other items
+                }
+            });
+
+
+            //Disabling toolbar menu( 3dot menu) except from transaction fragment
             if (destination.getId() == R.id.nav_transactions) {
                 binding.appBarMain.fab.setVisibility(View.VISIBLE);
                 showOptionMenu=true;
@@ -126,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Setup default categories
         if (myDatabase.myDao().getCategoryCount() == 0) {
-            // default categories
             Category category1 = new Category();
             category1.setCid(1);
             category1.setCname("Ψώνια");
@@ -187,11 +217,7 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(saveButtonReceiver, filter);
         Log.d("MainActivity", "onStart() called");
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser == null){
 
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        }
     }
 
 

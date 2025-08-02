@@ -3,30 +3,28 @@ import static com.example.ergasia.MainActivity.db;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.photopicker.EmbeddedPhotoPickerFeatureInfo;
-
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.ergasia.MainActivity;
+import com.example.ergasia.PopUp;
 import com.example.ergasia.R;
 import com.example.ergasia.database.Transactions;
 import com.example.ergasia.databinding.FragmentHomeBinding;
@@ -35,18 +33,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import java.io.File;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
-    TextView textLast;
-
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+    String formattedNumber;
 
     int total;
     private static final String PROFILE_IMAGE_FILENAME_PREFIX = "profile_";
@@ -54,66 +54,63 @@ public class HomeFragment extends Fragment {
 
 
 
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        mAuth = FirebaseAuth.getInstance();
+        return binding.getRoot();
+    }
 
-        textLast = root.findViewById(R.id.textLastTr);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        currentUser = mAuth.getCurrentUser();
 
 
+        NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.getDefault());
+        numberFormatter.setMinimumFractionDigits(2);
+        numberFormatter.setMaximumFractionDigits(2);
+        numberFormatter.setGroupingUsed(true);
 
-        mAuth=FirebaseAuth.getInstance();
-        try {
-            // Attempt to retrieve the current user
-            currentUser = mAuth.getCurrentUser();
-            if (currentUser == null) {
-                Log.e("HomeFragment", "Current user is null");
-
-                Toast.makeText(getContext(), "Παρακαλώ πραγματοποιήστε σύνδεση με λογαριασμό", Toast.LENGTH_SHORT).show();
-
-                return root;
-            }
-
-            Transactions lastTransaction = MainActivity.myDatabase.myDao().getLastTransaction(currentUser.getUid());
-
-        } catch (Exception e) {
-            Log.e("HomeFragment", "Error retrieving last transaction: " + e.getMessage());
-        }
         Transactions lastTransaction = MainActivity.myDatabase.myDao().getLastTransaction(currentUser.getUid());
-
         if (lastTransaction == null) {
             Log.d("HomeFragment", "Last transaction is null. Setting text to default message.");
-            textLast.setText("Δεν υπάρχουν συναλλαγές");
+            binding.textLastTr.setText("Δεν υπάρχουν συναλλαγές");
         } else {
-            String stringLast = "Κατηγορία: " + lastTransaction.getType() + "\nΠοσό: " + lastTransaction.getValue();
+            if (lastTransaction.getType().equals("ΕΣΟΔΑ")) {
+                Drawable drawable = getResources().getDrawable(R.drawable.up);
+                binding.imageView.setImageDrawable(drawable);
+            } else {
+                Drawable drawable = getResources().getDrawable(R.drawable.down);
+                binding.imageView.setImageDrawable(drawable);
+            }
+            String stringLast = "Κατηγορία : " + lastTransaction.getType() + "\nΠοσό : " + numberFormatter.format(lastTransaction.getValue()) + "€" + "\nΗμερομηνία : " + lastTransaction.getDate();
             Log.d("HomeFragment", "Last transaction retrieved successfully: " + stringLast);
-            textLast.setText(stringLast);
+            binding.textLastTr.setText(stringLast);
         }
 
-
-        TextView dTotal=root.findViewById(R.id.displayTotal);
-
+        binding.progressBarAmountLoading.setVisibility(View.VISIBLE);
         db.collection("UserTotal").document("" + currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                Object fieldValue = document.get("total");
+                long totalLong = (long) fieldValue;
+                total = (int) totalLong;
 
-                    DocumentSnapshot document = task.getResult();
-                    Object fieldValue = document.get("total");
-                    long totalLong = (long) fieldValue;
-                    total = (int) totalLong;
-                    dTotal.setText(String.valueOf(total));
+                formattedNumber = numberFormatter.format((double) total);
+                binding.progressBarAmountLoading.setVisibility(View.GONE);
+                binding.displayTotal.setText(String.format(Locale.ROOT, "%s €", formattedNumber));
 
+                binding.progressBar2Loading.setVisibility(View.VISIBLE);
                 db.collection("UserGoal").document("" + currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    TextView textpro2=root.findViewById(R.id.textpro2);
-                    ProgressBar p2 = root.findViewById(R.id.progressBar2);
+                    final CircularProgressBar p2 = (CircularProgressBar) binding.progressBar2;
+
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
+                            binding.progressBar2Loading.setVisibility(View.GONE);
                             DocumentSnapshot document = task.getResult();
 
                             if (document != null && document.exists()) {
@@ -123,16 +120,19 @@ public class HomeFragment extends Fragment {
                                     int goal = (int) totalGoal;
                                     int percentage = (int) ((total * 100) / goal);
 
-                                    p2.setProgress(percentage);
-                                    p2.setMax(100);
+                                    p2.setProgressWithAnimation((float) percentage, 3000L);
+                                    p2.setProgressBarColorStart(Color.CYAN);
+                                    p2.setProgressBarColorEnd(Color.GREEN);
+                                    p2.setBackgroundProgressBarColor(Color.GRAY);
+                                    p2.setProgressMax(100);
 
-                                    db.collection("UserGoal").document(""+currentUser.getUid()).update("percent", percentage);
+                                    db.collection("UserGoal").document("" + currentUser.getUid()).update("percent", percentage);
 
-                                    textpro2.setText(percentage+"%");
+                                    binding.textpro2.setText(percentage + "%");
                                 }
-                            }else {
+                            } else {
                                 p2.setVisibility(View.GONE);
-                                textpro2.setText("Δεν έχει οριστεί στόχος, μεταβείτε στο Λογαριασμός.");
+                                binding.textpro2.setText("Δεν έχει οριστεί στόχος, μεταβείτε στο Λογαριασμό");
                             }
                         }
                     }
@@ -143,64 +143,56 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        TextView dEmail=root.findViewById(R.id.displayUser);
-        dEmail.setText(currentUser.getEmail());
-
-
-
-        TextView textprogress=root.findViewById(R.id.textpro);
-
+        binding.displayUser.setText(currentUser.getEmail());
+        binding.progressBar1Loading.setVisibility(View.VISIBLE);
         try {
-            
             int totalIncome = MainActivity.myDatabase.myDao().getTotalIncome(currentUser.getUid());
             int totalExpenses = MainActivity.myDatabase.myDao().getTotalExpenses(currentUser.getUid());
-
-
             int totalAmount = totalIncome + totalExpenses;
-
-
+            CircularProgressBar progressBar = (CircularProgressBar) binding.progressBar1;
 
             if (totalAmount != 0) {
-
                 double incomePercentage = (double) totalIncome / totalAmount * 100;
                 double expensesPercentage = (double) totalExpenses / totalAmount * 100;
-
 
                 int roundedIncomePercentage = (int) Math.round(incomePercentage);
                 int roundedExpensesPercentage = (int) Math.round(expensesPercentage);
 
-                Drawable progressDrawable = getResources().getDrawable(R.drawable.progress);
+                progressBar.setProgressBarColorStart(Color.CYAN);
+                progressBar.setProgressBarColorEnd(Color.GREEN);
+                progressBar.setBackgroundProgressBarColorStart(Color.RED);
+                progressBar.setBackgroundProgressBarColorEnd(Color.RED);
+                binding.progressBar1Loading.setVisibility(View.GONE);
+                progressBar.setProgressWithAnimation((float) roundedIncomePercentage, 3000L);
+                progressBar.setProgressMax(100);
 
-                ProgressBar progressBar = root.findViewById(R.id.progressBar1);
-                progressBar.setProgressDrawable(progressDrawable);
-                progressBar.setProgress(roundedIncomePercentage);
-                progressBar.setMax(100);
-
-
-                TextView homeIn = root.findViewById(R.id.homeIn);
-                TextView homeEx = root.findViewById(R.id.homeEx);
-                homeIn.setText("Έσοδα: +" + roundedIncomePercentage + "%");
-                homeEx.setText("Έξοδα: -" + roundedExpensesPercentage + "%");
-                textprogress.setVisibility(View.GONE);
+                binding.homeIn.setText("+" + roundedIncomePercentage + "%");
+                binding.homeEx.setText("-" + roundedExpensesPercentage + "%");
+                binding.textpro.setVisibility(View.GONE);
             } else {
-
-                ProgressBar progressBar = root.findViewById(R.id.progressBar1);
                 progressBar.setVisibility(View.GONE);
-                textprogress.setText("Δεν υπάρχουν συναλλαγές");
+                binding.textIn.setVisibility(View.GONE);
+                binding.textOut.setVisibility(View.GONE);
+                binding.textpro.setText("Δεν υπάρχουν συναλλαγές");
             }
-
-
-
-
-
-
         } catch (Exception e) {
             Log.e("HomeFragment", "Error calculating progress bar: " + e.getMessage());
         }
-        setHasOptionsMenu(false);
 
-        return root;
+        assert binding.profileImage != null;
+        binding.profileImage.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_to_user));
+
+
+        binding.newTransactionButton.setOnClickListener(v -> {
+            Intent intent=new Intent(requireContext(), PopUp.class);
+            startActivity(intent);
+        });
+
+        setHasOptionsMenu(false);
     }
+
+
+
 
     public void onStart() {
         super.onStart();
@@ -213,6 +205,8 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
+
+
     private void displayCurrentUserProfileImage() {
         if (getContext() == null || binding.profileImage == null) {
             return;
@@ -222,7 +216,6 @@ public class HomeFragment extends Fragment {
         File profileImageFile = null;
 
         if (currentUser != null) {
-            // Use the local method to get the file
             profileImageFile = getProfileImageFileForUser(getContext(), currentUser.getUid());
         }
 
@@ -230,13 +223,13 @@ public class HomeFragment extends Fragment {
             Glide.with(this)
                     .load(profileImageFile)
                     .signature(new ObjectKey(String.valueOf(profileImageFile.lastModified())))
-                    .placeholder(R.drawable.baseline_person_24)
-                    .error(R.drawable.baseline_person_24)
+                    .placeholder(R.drawable.person)
+                    .error(R.drawable.person)
                     .circleCrop()
                     .into(binding.profileImage);
         } else {
             Glide.with(this)
-                    .load(R.drawable.baseline_person_24)
+                    .load(R.drawable.person)
                     .circleCrop()
                     .into(binding.profileImage);
         }

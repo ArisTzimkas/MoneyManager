@@ -17,6 +17,7 @@ import com.example.ergasia.R;
 import com.example.ergasia.database.Category;
 import com.example.ergasia.database.Transactions;
 
+import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -83,15 +84,15 @@ public class TransactionAdapter extends ListAdapter<Transactions, RecyclerView.V
     }
 
     static class IncomeViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView rerowImage;
         private final TextView rerowType;
         private final TextView rerowId;
         private final TextView rerowAmount;
         private final TextView rerowDate;
 
+
+
         public IncomeViewHolder(@NonNull View itemView) {
             super(itemView);
-            rerowImage = itemView.findViewById(R.id.rerowImage);
             rerowType = itemView.findViewById(R.id.rerowType);
             rerowId = itemView.findViewById(R.id.rerowId);
             rerowAmount = itemView.findViewById(R.id.rerowAmount);
@@ -99,9 +100,14 @@ public class TransactionAdapter extends ListAdapter<Transactions, RecyclerView.V
         }
 
         public void bind(final Transactions transaction) {
+            NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.getDefault());
+            numberFormatter.setMinimumFractionDigits(2);
+            numberFormatter.setMaximumFractionDigits(2);
+            numberFormatter.setGroupingUsed(true);
+
             rerowId.setText("Κωδικός: " + transaction.getId());
             rerowType.setText("Τύπος: " + transaction.getType());
-            rerowAmount.setText(String.format(Locale.getDefault(), "Ποσό: %.2f€", (double)transaction.getValue()));
+            rerowAmount.setText(String.format(Locale.getDefault(), "%s€", numberFormatter.format(transaction.getValue())));
             rerowDate.setText("Ημερομηνία: " + transaction.getDate());
             rerowAmount.setTextColor(Color.parseColor("#4CAF50")); // Green
         }
@@ -126,9 +132,14 @@ public class TransactionAdapter extends ListAdapter<Transactions, RecyclerView.V
         }
 
         public void bind(final Transactions transaction) {
+            NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.getDefault());
+            numberFormatter.setMinimumFractionDigits(2);
+            numberFormatter.setMaximumFractionDigits(2);
+            numberFormatter.setGroupingUsed(true);
+
             rerowId.setText("Κωδικός: " + transaction.getId());
             rerowType.setText("Τύπος: " + transaction.getType());
-            rerowAmount.setText(String.format(Locale.getDefault(), "Ποσό: %.2f€", (double)transaction.getValue()));
+            rerowAmount.setText(String.format(Locale.getDefault(), "%s€", numberFormatter.format(transaction.getValue())));
             rerowDate.setText("Ημερομηνία: " + transaction.getDate());
 
             String categoryName = "";

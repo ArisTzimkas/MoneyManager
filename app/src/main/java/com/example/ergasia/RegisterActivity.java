@@ -16,6 +16,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -103,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
             else{
-                Toast.makeText(RegisterActivity.this, "Η δημιουργία απέτυχε: "+task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, "Η δημιουργία απέτυχε: "+ Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

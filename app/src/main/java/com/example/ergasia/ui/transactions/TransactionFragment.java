@@ -41,12 +41,8 @@ public class TransactionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         binding = FragmentTransactionBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-
-        return root;
+        return binding.getRoot();
     }
 
     @Override
@@ -78,8 +74,6 @@ public class TransactionFragment extends Fragment {
 
 
         adapter.submitList(new ArrayList<>(transactions));
-
-
 
     }
 }

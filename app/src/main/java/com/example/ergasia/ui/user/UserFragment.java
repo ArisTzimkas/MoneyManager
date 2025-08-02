@@ -161,13 +161,13 @@ public class UserFragment extends Fragment {
             Glide.with(this)
                     .load(currentUserProfileImageFile)
                     .signature(new ObjectKey(String.valueOf(currentUserProfileImageFile.lastModified())))
-                    .placeholder(R.drawable.baseline_person_24)
-                    .error(R.drawable.baseline_person_24)
+                    .placeholder(R.drawable.person)
+                    .error(R.drawable.person)
                     .circleCrop()
                     .into(binding.profileImage);
         } else {
             Glide.with(this)
-                    .load(R.drawable.baseline_person_24) // Default placeholder
+                    .load(R.drawable.person) // Default placeholder
                     .circleCrop()
                     .into(binding.profileImage); // Use binding.profileImage
         }

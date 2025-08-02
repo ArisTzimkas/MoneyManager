@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
                 else{
-                    Toast.makeText(LoginActivity.this, "Η σύνδεση απέτυχε: "+task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Η σύνδεση απέτυχε: Το email ή το password είναι λάθος", Toast.LENGTH_LONG).show();
                 }
             }
         });
