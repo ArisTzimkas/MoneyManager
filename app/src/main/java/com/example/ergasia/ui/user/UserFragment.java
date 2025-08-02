@@ -36,7 +36,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -76,7 +75,6 @@ public class UserFragment extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         binding = FragmentUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -87,11 +85,9 @@ public class UserFragment extends Fragment {
         profileImage = root.findViewById(R.id.profileImage);
 
 
-        editPhotoButton.setOnClickListener(view -> {
-                    pickMedia.launch(new PickVisualMediaRequest.Builder()
-                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                            .build());
-        });
+        editPhotoButton.setOnClickListener(view -> pickMedia.launch(new PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                .build()));
 
 
         email=root.findViewById(R.id.emailUser);
@@ -155,19 +151,19 @@ public class UserFragment extends Fragment {
     }
 
     private void displayImage() {
-        if (getContext() == null || binding.profileImage == null) return;
+        if (getContext() == null) return;
 
         if (currentUserProfileImageFile != null && currentUserProfileImageFile.exists() && currentUserProfileImageFile.length() > 0) {
             Glide.with(this)
                     .load(currentUserProfileImageFile)
                     .signature(new ObjectKey(String.valueOf(currentUserProfileImageFile.lastModified())))
-                    .placeholder(R.drawable.baseline_person_24)
-                    .error(R.drawable.baseline_person_24)
+                    .placeholder(R.drawable.person)
+                    .error(R.drawable.person)
                     .circleCrop()
                     .into(binding.profileImage);
         } else {
             Glide.with(this)
-                    .load(R.drawable.baseline_person_24) // Default placeholder
+                    .load(R.drawable.person) // Default placeholder
                     .circleCrop()
                     .into(binding.profileImage); // Use binding.profileImage
         }

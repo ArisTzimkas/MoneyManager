@@ -60,4 +60,5 @@ dependencies {
 
     implementation(libs.androidx.activity)
     implementation(libs.glide)
+    implementation(libs.circularprogressbar)
 }

@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -36,8 +37,10 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="Τυπος : "
             android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/rerowImage"
             app:layout_constraintTop_toTopOf="@+id/rerowImage" />
 
@@ -46,40 +49,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="27dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="Κωδικος :"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/rerowImage"
-            app:layout_constraintStart_toEndOf="@+id/rerowImage" />
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/rerowImage"
+            app:layout_constraintTop_toBottomOf="@+id/rerowType" />
 
         <TextView
             android:id="@+id/rerowAmount"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="right"
             android:text="Ποσο :"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/rerowType"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/rerowType"
+            app:layout_constraintTop_toTopOf="@+id/rerowType"
+            app:layout_constraintVertical_bias="0.0"/>
 
         <TextView
             android:id="@+id/rerowDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="27dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="Ημερομηνια"
             android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/rerowCat"
             app:layout_constraintStart_toEndOf="@+id/rerowImage"
-            app:layout_constraintTop_toTopOf="@+id/rerowImage" />
+            app:layout_constraintTop_toBottomOf="@+id/rerowId" />
 
         <TextView
             android:id="@+id/rerowCat"
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="Κατηγορια εξοδων"
             android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/rerowImage"
             app:layout_constraintStart_toEndOf="@+id/rerowImage" />
         </androidx.constraintlayout.widget.ConstraintLayout>

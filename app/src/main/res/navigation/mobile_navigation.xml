@@ -75,4 +75,8 @@
         android:id="@+id/action_to_goal"
         app:destination="@+id/nav_goal"/>
 
+    <action
+        android:id="@+id/action_to_user"
+        app:destination="@+id/nav_user"/>
+
 </navigation>

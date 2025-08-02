@@ -11,14 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ergasia.MainActivity;
 import com.example.ergasia.R;
 import com.example.ergasia.database.Transactions;
 import com.example.ergasia.databinding.FragmentTransactionBinding;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,12 +39,8 @@ public class TransactionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         binding = FragmentTransactionBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-
-        return root;
+        return binding.getRoot();
     }
 
     @Override
@@ -78,8 +72,6 @@ public class TransactionFragment extends Fragment {
 
 
         adapter.submitList(new ArrayList<>(transactions));
-
-
 
     }
 }

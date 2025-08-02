@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,19 +43,9 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth= FirebaseAuth.getInstance();
 
-        loginB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loginUser();
-            }
-        });
+        loginB.setOnClickListener(v -> loginUser());
 
-        gotoRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
-            }
-        });
+        gotoRegister.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this,RegisterActivity.class)));
 
 
 
@@ -75,9 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(email)){
             emailLayout.setError("Απαιτείται *");
-            if(isValid){
-                textEmailLogin.requestFocus();
-            }
+            textEmailLogin.requestFocus();
             isValid=false;
         }else{
             emailLayout.setError(null);
@@ -102,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
                 else{
-                    Toast.makeText(LoginActivity.this, "Η σύνδεση απέτυχε: "+task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Η σύνδεση απέτυχε: Το email ή το password είναι λάθος", Toast.LENGTH_LONG).show();
                 }
             }
         });
