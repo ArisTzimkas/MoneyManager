@@ -15,7 +15,7 @@
         android:id="@+id/nav_transactions"
         android:name="com.example.money_manager.ui.transactions.TransactionFragment"
         android:label="Συναλλαγές"
-        tools:layout="@layout/fragment_transactions" />
+        tools:layout="@layout/fragment_transaction" />
 
     <fragment
         android:id="@+id/nav_user"
