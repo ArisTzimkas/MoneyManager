@@ -7,31 +7,31 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.ergasia.ui.home.HomeFragment"
+        android:name="com.example.money_manager.ui.home.HomeFragment"
         android:label="Αρχική"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_transactions"
-        android:name="com.example.ergasia.ui.transactions.TransactionFragment"
+        android:name="com.example.money_manager.ui.transactions.TransactionFragment"
         android:label="Συναλλαγές"
         tools:layout="@layout/fragment_transactions" />
 
     <fragment
         android:id="@+id/nav_user"
-        android:name="com.example.ergasia.ui.user.UserFragment"
+        android:name="com.example.money_manager.ui.user.UserFragment"
         android:label="Λογαριασμός"
         tools:layout="@layout/fragment_user" />
 
     <fragment
         android:id="@+id/nav_schedule"
-        android:name="com.example.ergasia.ui.scheduled.ScheduleFragment"
+        android:name="com.example.money_manager.ui.scheduled.ScheduleFragment"
         android:label="Προγραμματισμός εξόδων"
         tools:layout="@layout/fragment_schedule" />
 
     <fragment
         android:id="@+id/nav_add_category"
-        android:name="com.example.ergasia.ui.AddCategoryFragment"
+        android:name="com.example.money_manager.ui.AddCategoryFragment"
         android:label="Προσθήκη κατηγορίας Εξόδων"
         tools:layout="@layout/fragment_add_category">
 
@@ -42,20 +42,20 @@
 
     <fragment
         android:id="@+id/nav_search"
-        android:name="com.example.ergasia.ui.search.SearchFragment"
+        android:name="com.example.money_manager.ui.search.SearchFragment"
         android:label="Αναζήτηση εξόδων"
         tools:layout="@layout/fragment_search" />
 
 
     <fragment
         android:id="@+id/nav_goal"
-        android:name="com.example.ergasia.ui.user.GoalFragment"
+        android:name="com.example.money_manager.ui.user.GoalFragment"
         android:label="Ορισμός στόχου υπολοίπου"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/nav_about"
-        android:name="com.example.ergasia.ui.about.AboutFragment"
+        android:name="com.example.money_manager.ui.about.AboutFragment"
         android:label="Στοιχεία εφαρμογής"
         tools:layout="@layout/fragment_about" />
 

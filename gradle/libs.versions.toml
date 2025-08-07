@@ -20,6 +20,7 @@ recyclerview = "1.4.0"
 cardview = "1.0.0"
 androidxActivity = "1.10.1"
 media3Common = "1.8.0"
+compiler = "3.2.0-alpha11"
 
 [libraries]
 circularprogressbar = { module = "com.mikhaellopez:circularprogressbar", version.ref = "circularprogressbar" }
@@ -44,6 +45,7 @@ recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version
 cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "androidxActivity" }
 androidx-media3-common = { group = "androidx.media3", name = "media3-common", version.ref = "media3Common" }
+androidx-compiler = { group = "androidx.databinding", name = "compiler", version.ref = "compiler" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

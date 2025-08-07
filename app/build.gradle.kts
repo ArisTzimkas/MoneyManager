@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ergasia"
+    namespace = "com.example.money_manager"
     compileSdk = 36
 
     defaultConfig {
@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.recyclerview)
     implementation(libs.cardview)
     implementation(libs.androidx.media3.common)
+    implementation(libs.androidx.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

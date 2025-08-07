@@ -1,147 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:background="@drawable/background"
     tools:context=".ui.user.UserFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout7"
-        android:layout_width="0dp"
-        android:layout_height="280dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/corners"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <!-- The original content starts here -->
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Όνομα Χρήστη:"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView8"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout7"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/corners"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Id:"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/connectbutton"
-            app:layout_constraintStart_toStartOf="@+id/textView7" />
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Email :"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileImage" />
 
-        <TextView
-            android:id="@+id/textid"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Id:"
+                android:textColor="#5DFFFFFF"
+                android:textSize="10dp"
+                app:layout_constraintStart_toStartOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <TextView
+                android:id="@+id/textid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:text="TextView"
+                android:textColor="#5DFFFFFF"
+                android:textSize="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                app:layout_constraintStart_toEndOf="@+id/textView8"
+                app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+            <TextView
+                android:id="@+id/emailUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="sans-serif-black"
+                android:text="TextView"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView7"
+                app:layout_constraintTop_toTopOf="@+id/textView7" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/connectbutton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/buttons"
+                android:drawableStart="@drawable/logout"
+                android:drawableTint="@color/white"
+                android:paddingStart="8dp"
+                android:text="Αποσύνδεση"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/circle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/person" />
+
+            <ImageButton
+                android:id="@+id/editPhotoButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="-16dp"
+                android:background="@drawable/buttons"
+                android:src="@drawable/imageedit"
+                app:layout_constraintBottom_toBottomOf="@+id/profileImage"
+                app:layout_constraintEnd_toEndOf="@+id/profileImage"
+                app:tint="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonDelete"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/buttons"
+                android:drawableStart="@drawable/delete"
+                android:drawableTint="@color/white"
+                android:paddingStart="8dp"
+                android:text="Διαγραφη χρηστη"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toTopOf="@+id/connectbutton"
+                app:layout_constraintEnd_toEndOf="@+id/connectbutton"
+                app:layout_constraintStart_toStartOf="@+id/connectbutton" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout9"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="TextView"
-            android:textColor="#FFFFFF"
-            app:layout_constraintStart_toEndOf="@+id/textView8"
-            app:layout_constraintTop_toTopOf="@+id/textView8" />
-
-        <TextView
-            android:id="@+id/emailUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView7"
-            app:layout_constraintTop_toTopOf="@+id/textView7" />
-
-        <Button
-            android:id="@+id/connectbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="αποσυνδεση"
-            android:textColor="#FFFFFF"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/corners"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/circle"
-            app:layout_constraintBottom_toTopOf="@+id/textView7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/baseline_person_24" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout7">
 
-        <ImageButton
-            android:id="@+id/editPhotoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="-16dp"
-            android:backgroundTint="@color/teal"
-            android:src="@drawable/baseline_search_24"
-            app:layout_constraintBottom_toBottomOf="@+id/profileImage"
-            app:layout_constraintEnd_toEndOf="@+id/profileImage" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonGoal"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/buttons"
+                android:text="Ορισμός"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Στόχος Υπολοίπου"
+                android:textColor="#FFFFFF"
+                android:textSize="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/progressBar2Loading"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                app:cpb_background_progressbar_color="@color/grey"
+                app:cpb_background_progressbar_width="12dp"
+                app:cpb_indeterminate_mode="true"
+                app:cpb_progress_direction="to_right"
+                app:cpb_progressbar_color="@color/blue_menu"
+                app:cpb_progressbar_width="10dp"
+                app:cpb_round_border="true"
+                app:cpb_start_angle="180"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/goalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/oswald"
+                android:text="Δεν έχει οριστεί"
+                android:textColor="#FFFFFF"
+                android:textSize="24dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- The original content ends here -->
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout9"
-        android:layout_width="0dp"
-        android:layout_height="180dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/corners"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.87">
-
-        <Button
-            android:id="@+id/buttonGoal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ορισμός"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Στόχος Υπολοίπου:"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/goalText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Δεν έχει οριστεί"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView24"
-            app:layout_constraintTop_toTopOf="@+id/textView24" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -20,16 +20,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="9dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="sans-serif-condensed"
             android:gravity="center"
-            android:text="Η εφαρμογή αυτή έχει υλοποιηθεί στα πλαίσια της εργασίας του μαθήματος Προηγμένα Θέματα Αλληλεπίδρασης (Προγραμματισμός Κινητών Συσκευών) του τμήματος Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων του ΔΙΠΑΕ. \nEmail επικοινωνίας-υποστήριξης εφαρμογής: aristeidhstz@gmail.com \nVersrion: 1.1(7/7/24)"
+            android:text="Η αρχική ιδέα της εφαρμογής έχει υλοποιηθεί στα πλαίσια της εργασίας του μαθήματος Προηγμένα Θέματα Αλληλεπίδρασης (Προγραμματισμός Κινητών Συσκευών) του τμήματος Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων του ΔΙΠΑΕ.  \n\nEmail επικοινωνίας-υποστήριξης εφαρμογής: aristeidhstz@gmail.com \n\nVersrion: 1.2"
             android:textColor="#FFFFFF"
-            android:textSize="24sp"
+            android:textSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/imageNoData"
-            app:layout_constraintTop_toTopOf="@+id/imageNoData"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageNoData"

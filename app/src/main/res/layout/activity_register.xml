@@ -10,13 +10,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/CreateButton"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:background="@drawable/buttons"
         android:text="ΔΗΜΙΟΥΡΓΙΑ"
         android:textColor="#FFFFFF"
+        android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputSetTotalLayout" />
@@ -29,7 +31,7 @@
         android:layout_marginTop="32dp"
         android:text="Έχεις ήδη λογαριασμο;"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
+        android:textSize="16dp"
         app:layout_constraintStart_toStartOf="@+id/inputSetTotalLayout"
         app:layout_constraintTop_toBottomOf="@+id/CreateButton" />
 
@@ -40,7 +42,7 @@
         android:layout_marginEnd="32dp"
         android:text="Σύνδεση"
         android:textColor="#FF5500"
-        android:textSize="24sp"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/inputSetTotalLayout" />
 
@@ -48,13 +50,15 @@
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="94dp"
+        android:layout_marginTop="32dp"
+
+        android:fontFamily="sans-serif-black"
         android:text="Δημιουργία Λογαριασμού"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textEmailCreateLayout"
@@ -82,6 +86,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textEmailCreate"
             android:layout_width="match_parent"
+            android:textSize="18dp"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:textColor="@color/white" />
@@ -114,6 +119,7 @@
             android:id="@+id/textPasswordCreate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="18dp"
             android:inputType="textPassword"
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -146,10 +152,33 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputSetTotal"
             android:layout_width="match_parent"
+            android:textSize="18dp"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textEmailCreateLayout"
+        app:layout_constraintStart_toStartOf="@+id/textEmailCreateLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Money Manager"
+        android:textColor="#FFFFFF"
+        android:textSize="32dp"
+        app:layout_constraintEnd_toEndOf="@+id/textEmailCreateLayout"
+        app:layout_constraintStart_toStartOf="@+id/textEmailCreateLayout"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

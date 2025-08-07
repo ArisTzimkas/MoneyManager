@@ -40,7 +40,7 @@
             android:fontFamily="sans-serif-condensed"
             android:text="Τυπος : "
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="16dp"
             app:layout_constraintStart_toEndOf="@+id/rerowImage"
             app:layout_constraintTop_toTopOf="@+id/rerowImage" />
 
@@ -53,7 +53,7 @@
             android:fontFamily="sans-serif-condensed"
             android:text="Κωδικος :"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="16dp"
             app:layout_constraintStart_toEndOf="@+id/rerowImage"
             app:layout_constraintTop_toBottomOf="@+id/rerowType" />
 
@@ -65,7 +65,8 @@
             android:fontFamily="sans-serif-medium"
             android:gravity="right"
             android:text="Ποσο :"
-            android:textSize="16sp"
+            android:textSize="16dp"
+            android:textColor="#F42323"
             app:layout_constraintBottom_toBottomOf="@+id/rerowType"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -81,7 +82,7 @@
             android:fontFamily="sans-serif-condensed"
             android:text="Ημερομηνια"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="16dp"
             app:layout_constraintBottom_toTopOf="@+id/rerowCat"
             app:layout_constraintStart_toEndOf="@+id/rerowImage"
             app:layout_constraintTop_toBottomOf="@+id/rerowId" />
@@ -94,7 +95,7 @@
             android:fontFamily="sans-serif-condensed"
             android:text="Κατηγορια εξοδων"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/rerowImage"
             app:layout_constraintStart_toEndOf="@+id/rerowImage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
