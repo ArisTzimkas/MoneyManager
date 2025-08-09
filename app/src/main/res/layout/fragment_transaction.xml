@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="24dp"
         android:text="Δέν υπάρχουν συναλλαγές"
         app:layout_constraintEnd_toEndOf="@+id/Recycler"
         app:layout_constraintStart_toStartOf="@+id/Recycler"

@@ -20,7 +20,7 @@
 
         app:boxStrokeColor="@color/teal"
         app:counterEnabled="true"
-        app:counterMaxLength="50"
+        app:counterMaxLength="15"
         app:counterTextColor="@color/white"
 
         app:endIconMode="clear_text"
@@ -35,21 +35,22 @@
             android:id="@+id/addcategoryinput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="51"
+            android:maxLength="16"
             android:textColor="@color/white"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-    android:id="@+id/addcategorybutton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="32dp"
-    android:text="Προσθήκη"
-    android:textColor="#FFFFFF"
-    android:textSize="16sp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/addCategoryInputLayout" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/addcategorybutton"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/buttons"
+        android:text="Προσθήκη"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addCategoryInputLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

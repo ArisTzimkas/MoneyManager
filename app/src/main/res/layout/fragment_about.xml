@@ -3,7 +3,6 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@drawable/background"
     android:scaleType="centerCrop"
@@ -21,10 +20,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="250dp"
             android:layout_marginBottom="250dp"
-            android:gravity="center"
-            android:text="Η εφαρμογή αυτή έχει υλοποιηθεί στα πλαίσια της εργασίας του μαθήματος Προηγμένα Θέματα Αλληλεπίδρασης (Προγραμματισμός Κινητών Συσκευών) του τμήματος Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων του ΔΙΠΑΕ. \nEmail επικοινωνίας-υποστήριξης εφαρμογής: aristeidhstz@gmail.com \nVersrion: 1.1(7/7/24)"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Η εφαρμογή αυτή έχει υλοποιηθεί στα πλαίσια της εργασίας του μαθήματος Προηγμένα Θέματα Αλληλεπίδρασης (Προγραμματισμός Κινητών Συσκευών) του τμήματος Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων του ΔΙΠΑΕ. \n\nEmail επικοινωνίας-υποστήριξης εφαρμογής: aristeidhstz@gmail.com \n\nVersrion: 1.2"
+            android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,13 +38,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/info" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="409dp"
-            android:layout_height="wrap_content"
-            app:counterEnabled="false"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="591dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

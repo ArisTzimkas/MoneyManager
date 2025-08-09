@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
 
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +48,7 @@
             android:text="Εδώ θα εμφανίζονται αποθηκευμένα ποσά.\n Πατήστε μια διαθέσιμη ημερομηνία για να εμφανιστεί το ποσό."
             android:layout_marginTop="5dp"
             android:textColor="@color/white"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:gravity="center_horizontal"/>
     </ScrollView>
 
@@ -73,10 +74,10 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/scheduleSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,6 +86,8 @@
         android:paddingTop="12dp"
         android:paddingEnd="24dp"
         android:paddingBottom="12dp"
+        android:background="@drawable/buttons"
+        android:textSize="18dp"
         android:text="αποθηκευση"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"

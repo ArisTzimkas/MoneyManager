@@ -43,6 +43,7 @@
         app:layout_constraintVertical_bias="0.23000002">
 
         <AutoCompleteTextView
+            android:textSize="22dp"
             android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="22dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -106,7 +108,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="none"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="22dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
@@ -129,7 +132,7 @@
         android:layout_weight="1"
         android:backgroundTint="#8A0000"
         android:text="ΑΚΥΡΩΣΗ"
-        android:textSize="12sp"
+        android:textSize="12dp"
         android:textColor="#FFFFFF"
          />
 
@@ -141,7 +144,7 @@
         android:layout_weight="1"
         android:backgroundTint="#00D609"
         android:text="ΑΠΟΘΗΚΕΥΣΗ"
-        android:textSize="12sp"
+        android:textSize="12dp"
         android:textColor="#FFFFFF"
          />
 
