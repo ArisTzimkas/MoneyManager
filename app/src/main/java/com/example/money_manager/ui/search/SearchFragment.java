@@ -1,5 +1,6 @@
 package com.example.money_manager.ui.search;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -84,17 +85,17 @@ public class SearchFragment extends Fragment {
                     if (clean.length() > 6 || s.length() > 7) { // User typed past MM or a hyphen was just added
                         formatted.append("-");
                     }
-                } else if (clean.length() > 4 && formatted.length() > 4 && formatted.charAt(formatted.length()-1) == '-') {
+                } else if (clean.length() > 4 && formatted.length() > 4 && formatted.charAt(formatted.length() - 1) == '-') {
                     // YYYY- and some digits for MM but less than 2
-                    formatted.append(clean.substring(4, Math.min(4 + (clean.length() - 4), 6) ));
+                    formatted.append(clean.substring(4, Math.min(4 + (clean.length() - 4), 6)));
                 }
 
 
                 if (clean.length() == 8 && formatted.length() == 8) { // If we have YYYY-MM- and more digits for DD
                     formatted.append(clean.substring(6, 8));
-                } else if (clean.length() > 6 && formatted.length() > 7 && formatted.charAt(formatted.length()-1) == '-') {
+                } else if (clean.length() > 6 && formatted.length() > 7 && formatted.charAt(formatted.length() - 1) == '-') {
                     // YYYY-MM- and some digits for DD but less than 2
-                    if (clean.length() - 6 > 0) formatted.append(clean.substring(6, Math.min(6 + (clean.length() - 6), 8) ));
+                    formatted.append(clean.substring(6, Math.min(6 + (clean.length() - 6), 8)));
                 }
             }
 
@@ -102,16 +103,12 @@ public class SearchFragment extends Fragment {
             current = formatted.toString();
             editText.setText(current);
 
-            // Cursor positioning logic (can be complex)
-            // A simpler approach for this Java version: try to place it at the end of the input
-            // or where it was if no hyphens were added/removed at the cursor's previous position.
             int newSelection = selectionPos + (current.length() - s.length());
             if (newSelection < 0) newSelection = 0;
             if (newSelection > current.length()) newSelection = current.length();
 
-            // More specific cursor adjustment if a hyphen was just programmatically added
             if (originalClean.length() == 4 && current.length() == 5 && current.charAt(4) == '-' || originalClean.length() == 6 && current.length() == 8 && current.charAt(7) == '-') {
-                if (selectionPos == formatted.length() -1 ) { // If cursor was right before the new hyphen
+                if (selectionPos == formatted.length() -1 ) {
                     newSelection = formatted.length();
                 }
             }
@@ -171,6 +168,9 @@ public class SearchFragment extends Fragment {
                         binding.Recycler.setAdapter(adapter1);
                     }
                     List<Transactions> transactions = MainActivity.myDatabase.myDao().getTransactionsByCategoryAndDateRangeAndUser(selectedCategory, startDate, endDate, user);
+                    if (transactions.isEmpty()){
+                        Toast.makeText(requireContext(), "Δέν βρέθηκαν αποτελέσματα", Toast.LENGTH_SHORT).show();
+                    }
                     adapter1.submitList(transactions);
                 }
             } else {
