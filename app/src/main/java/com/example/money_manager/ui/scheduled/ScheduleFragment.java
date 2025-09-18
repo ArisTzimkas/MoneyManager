@@ -22,6 +22,7 @@ import com.example.money_manager.R;
 import com.example.money_manager.database.Schedule;
 import com.example.money_manager.databinding.FragmentScheduleBinding;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -61,8 +62,7 @@ public class ScheduleFragment extends Fragment {
         FirebaseUser currentUser=mAuth.getCurrentUser();
         assert currentUser != null;
         user=currentUser.getUid();
-
-        EditText valueEditText=root.findViewById(R.id.scheduleInput);
+        TextInputEditText valueEditText=root.findViewById(R.id.scheduleInput);
         Button saveButton = root.findViewById(R.id.scheduleSave);
         saveButton.setOnClickListener(v -> {
             String valueString = valueEditText.getText().toString().trim();
@@ -82,8 +82,10 @@ public class ScheduleFragment extends Fragment {
                 MainActivity.myDatabase.myDao().addSchedule(schedule);
                 Toast.makeText(getActivity(), "Επιτυχής Προσθήκη", Toast.LENGTH_SHORT).show();
                 valueEditText.setText("");
+                valueEditText.setError(null);
 
             } else {
+                valueEditText.setError("Απαιτήται *");
                 Toast.makeText(getActivity(), "Παρακαλώ πληκτρολογίστε ένα ποσό", Toast.LENGTH_SHORT).show();
             }
         });
