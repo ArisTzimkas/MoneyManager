@@ -17,6 +17,6 @@ Manage your income and expenses in one application. Create an account and track 
 
 ### Installing
 
-* Head to https://github.com/ArisTzimkas/MoneyManager/releases .
+* Head to [Releases](https://github.com/ArisTzimkas/MoneyManager/releases).
 * Download the "MoneyManager.apk" file of the latest release available.
 * Then install it on your device.
