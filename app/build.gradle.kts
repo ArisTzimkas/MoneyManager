@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId = "com.example.ergasia"
         minSdk = 27
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.2"
 

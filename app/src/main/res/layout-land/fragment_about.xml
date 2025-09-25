@@ -23,7 +23,7 @@
             android:layout_marginBottom="24dp"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center"
-            android:text="Η αρχική ιδέα της εφαρμογής έχει υλοποιηθεί στα πλαίσια της εργασίας του μαθήματος Προηγμένα Θέματα Αλληλεπίδρασης (Προγραμματισμός Κινητών Συσκευών) του τμήματος Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων του ΔΙΠΑΕ.  \n\nEmail επικοινωνίας-υποστήριξης εφαρμογής: aristeidhstz@gmail.com \n\nVersrion: 1.2"
+            android:text="Η εφαρμογή αυτή έχει υλοποιηθεί στα πλαίσια της εργασίας του μαθήματος Προηγμένα Θέματα Αλληλεπίδρασης (Προγραμματισμός Κινητών Συσκευών) του τμήματος Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων του ΔΙΠΑΕ. \n\nEmail επικοινωνίας-υποστήριξης εφαρμογής: aristeidhstz@gmail.com \n\nVersrion: 1.2.1"
             android:textColor="#FFFFFF"
             android:textSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
